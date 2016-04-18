@@ -1,0 +1,15 @@
+<div class="left-box col-sm-3 col-md-2">
+    <dl class="menu">
+        <dt><span class="glyphicon glyphicon-th-large"></span> <strong>管理员</strong></dt>
+        <dd class=""><a href="{:U('Home/Admin/adminEdit',array('admin_id'=>$_SESSION['admin_id'],'nickname'=>$_SESSION['nickname']))}">修改资料</a></dd>
+    </dl>
+
+    <dl class="menu">
+        <dt><span class="glyphicon glyphicon-th-large"></span> <strong>管理员设置</strong></dt>
+        <dd class=""><a href="{:U('Home/Admin/adminList')}">管理员列表</a></dd>
+        <dd class=""><a href="{:U('Home/Role/roleList')}">角色列表</a>
+        <dd class=""><a href="{:U('Home/Node/nodeList')}">节点列表</a>
+        </dd>
+    </dl>
+
+</div>

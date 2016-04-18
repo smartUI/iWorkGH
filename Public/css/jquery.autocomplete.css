@@ -1,0 +1,87 @@
+/*
+* jQuery.autocomplete.css (v1.1.0)
+* authored by nswish (nswish@gmail.com)
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+/*表单*/
+#select-author{width: 150px !important;}
+.select-input{position: absolute !important; border-radius:4px 0px 0px 4px; width: 130px !important; width:130px\0;height: 90%; top: 0px; left: 0px; margin: 1px; border: 0px;border-shadow:0px;}
+/*插件的下拉框*/
+div.ac {
+    border: 1px solid #ccc;
+	position: absolute;
+	display: none;
+	overflow: auto;
+    min-width: 148px !important;
+    border-radius: 3px;
+}
+
+div.ac > ul {
+	margin: 0px;
+	padding: 0px;
+}
+
+div.ac > ul > li {
+	margin: 0px;
+	list-style-type: none;
+	background-color: white;
+	word-break: break-all;
+}
+div.ac > ul > li:hover{
+    cursor: pointer;
+}
+div.ac > ul > li > div {
+	display: table-row;
+	width: 100%;
+}
+
+div.ac > ul > li > div em {
+	font-weight: 900;
+    font-style: normal;
+    color: #99000d;
+}
+
+div.ac > ul > li.normal {
+	padding: 2px 0px 2px 2px;
+}
+
+div.ac > ul > li.normal > div > span{
+	display: table-cell;
+	vertical-align: middle;
+    padding-left:10px;
+}
+
+div.ac > ul > li.iconList {
+	padding: 0px 0px 0px 2px;
+}
+
+div.ac > ul > li.iconList > div > div {
+	display: table-cell;
+	vertical-align: middle;
+	padding-right: 5px;
+}
+
+div.ac > ul > li.iconList > div > div > img {
+	display: table;
+	display: table-cell\9;
+}   
+
+div.ac > ul > li.iconList > div > span {
+	display: table-cell;
+	vertical-align: middle;
+}
+
+div.ac > ul > li.selected {
+	background-color: #DCDCDC;
+}
