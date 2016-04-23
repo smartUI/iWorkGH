@@ -17,6 +17,23 @@ return array(
     'DB_PREFIX'             =>  'z_',    // 数据库表前
     'DB_CHARSET' => 'utf8mb4',
 
-    'GongGe' => ['jiehsao','wenhua'], //
-    'LieBiao' => ['huodong','dongtai'],
+//    'gongge' => array(
+//        'jiehsao' => array(
+//            'title' => '企业介绍',
+//            'type' => '宫格'
+//        ),
+//        'huodong' => array(
+//            'title' => '企业介绍',
+//            'type' => '宫格'
+//        ),
+//        'jiehsao' => array(
+//            'title' => '企业介绍',
+//            'type' => '宫格'
+//        ),
+//        'jiehsao' => array(
+//            'title' => '企业介绍',
+//            'type' => '宫格'
+//        ),
+//        'wenhua'], //
+//    'liebiao' => ['huodong','dongtai'],
 );
