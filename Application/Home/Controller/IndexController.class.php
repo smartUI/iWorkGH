@@ -17,13 +17,14 @@ class IndexController extends Controller {
         $m = menu();
         $this->assign('menu',$m['menu']);
         $this->assign('slider',$m['slider']);
+
+    }
+
+    public function index(){
         if(!session('nickname'))
         {
             $this->redirect('/Home/Index/login');
         }
-    }
-
-    public function index(){
 
         $issetpasswd = I('get.issetpasswd',0,'int');
         $nickname=I('session.nickname','','string');
@@ -140,7 +141,7 @@ class IndexController extends Controller {
     //退出登录
     public function logout(){
         session(null);
-        $this->redirect('/Home/Index/login');
+        $this->redirect('/Home/Index/index');
     }
 
     //修改个人信息
@@ -176,39 +177,6 @@ class IndexController extends Controller {
             $this->display();
         }
 
-    }
-
-    //活动数据
-    public function activity(){
-        layout(false);
-        $id = I('get.id',0,'int');
-        //判断是否有活动
-        $file_url = 'http://'.$_SERVER['SERVER_NAME'].'/Application/Home/View/Index/act'.$id.'.html';
-        if(!$id || file_get_contents($file_url)==''){
-            $this->display('act');
-            die;
-        }
-        //$time = M('Activity')->field('end_time')->find($id);
-        //$allow = strtotime($time['end_time']);
-        $this->assign('allow','false');
-        $this->assign('id',$id);
-        $this->assign('url','http://'.$_SERVER['SERVER_NAME'].'/Home/Index/activity_do');
-        $this->display('act'.$id);
-    }
-
-    public function activity_do(){
-        $model = M('ActivityResult');
-        $data['a_id'] = I('get.a_id',0,'int');
-        $data['name'] = I('get.name','','string');
-        $data['tel'] = I('get.tel','','string');
-        $data['address'] = I('get.address','','string');
-
-        try{
-            $model->add($data);
-            echo 1;
-        }catch (\Exception $e){
-            echo 0;
-        }
     }
 
     /**

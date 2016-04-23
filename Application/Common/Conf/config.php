@@ -13,5 +13,7 @@ return array(
     //每页
     'PER_PAGE'           => '20',
     'URL_CASE_INSENSITIVE' => true,
-    
+
+    'NOT_AUTH_MODULE'    => 'Index',           //无需认证的控制器
+
 );
