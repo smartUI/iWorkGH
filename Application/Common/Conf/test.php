@@ -16,4 +16,7 @@ return array(
     'DB_PORT'               =>  '3306',        // 端口
     'DB_PREFIX'             =>  'z_',    // 数据库表前
     'DB_CHARSET' => 'utf8mb4',
+
+    'GongGe' => ['jiehsao','wenhua'], //
+    'LieBiao' => ['huodong','dongtai'],
 );

@@ -34,15 +34,12 @@ function menu() {
 	$act = strtolower(CONTROLLER_NAME);
 
 	//组合“内容管理菜单”
-	if ($act == 'index') {
-		$slider = '<dl class="menu"><dt><span class="glyphicon glyphicon-th-large"></span> <strong>管理员</strong></dt><dd class="Index Admin"><a href="/Home/Index/adminEdit/admin_id/' . $_SESSION["admin_id"] . '/nickname/' . $_SESSION["nickname"] . '/type/public">修改资料</a></dd>' .
-			'<dd><a href="/Home/News/newsList?status=1&recommend=0&order=id&filter=1&author=' . $_SESSION["admin_id"] . '&category=&title=">我的稿件</a></dd></dl>';
-	}
-	$slider1 = '';
-	
 
-	//----------------------------------
-	//echo "<div class='hidden'>".$act."</div>";
+	$slider = '<dl class="menu"><dt><span class="glyphicon glyphicon-th-large"></span> <strong>信息管理</strong></dt><dd class="Index Admin"> <a href="/home/index/index">我的面板</a></dd><dd class=" Pages"> <a href="/Home/Pages/pagesList">页面管理</a></dd>' .
+			'</dl>';
+
+	$slider1 = '';
+
 	return array('menu' => $menu, 'slider' => $slider);
 
 }
@@ -69,9 +66,9 @@ function makeDir($name) {
 
 //检查session
 function isLogin() {
-	if (!session('author') || !session('nickname')) {
+	/*if (!session('author') || !session('nickname')) {
 		echo "<script> alert('登录超时，请重新登录！');parent.location.href='/Home/Index/login'; </script>";
-	}
+	}*/
 }
 
 
