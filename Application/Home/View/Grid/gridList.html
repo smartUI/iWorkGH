@@ -1,0 +1,132 @@
+<style>
+    .news-id{width: 50px;}
+    .news-sta{width: 60px;}
+    .news-add, .news-pub{width: 90px;}
+    .news-control, .news-auth{width: 100px;}
+    .table{clear: both;}
+    .kol{cursor: pointer; margin-left: 3px;}
+    #view-body img{max-width: 100%;}
+</style>
+
+<link rel="stylesheet" href="__PUBLIC__/css/jquery.autocomplete.css" >
+
+<div class="row-fluid">
+    <strong class="glyphicon glyphicon-wrench" style="line-height: 34px;display: inline-block;height: 34px;font-weight:bolder;">操作：</strong><a href="/Home/Grid/edit" class="btn btn-primary">添加</a>
+</div><p>
+<table class="table table-hover" border="0">
+    <thead>
+    <tr>
+        <th class="text-left news-id">ID</th>
+        <th class="text-left news-title">宫格图片</th>
+        <th class="text-left news-add">宫格链接</th>
+        <th class="text-left news-control">操作</th>
+    </tr>
+    </thead>
+    <tbody><!--<a href="/Home/News/newsHtml5/id/{$v.id}">-->
+    <foreach name="list" item="v">
+        <tr>
+            <td class="text-left">{$v.id}</td>
+            <td class="text-left">
+                <a target="_blank" href="/Uploads/{$v.icon}">
+                    <img width="80" height="80" src="/Uploads/{$v.icon}">
+                </a>
+            </td>
+            <td class="text-left text-muted"><a href="{$v.url}" target="_blank">{$v.url}</a></td>
+            <td class="text-left">
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                        <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>  操作
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="/Home/Grid/delete/id/{$v.id}" onclick="return confirm('确定删除吗?')">删除</a></li>
+                        <li><a href="/Home/Grid/edit/id/{$v.id}">修改</a></li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+    </foreach>
+    </tbody>
+</table>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="view-title">Modal title</h4>
+            </div>
+            <div class="modal-body" id="view-body">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <!--<button type="button" class="btn btn-primary">Save changes</button>-->
+            </div>
+        </div>
+    </div>
+</div>
+<!--<a href="/Home/News/newsContent/id/{$v.id}">{$v.title}</a>-->
+<!--<a target="_blank" href="/Html/{$v.add_time|substr=0,4}/{$v.add_time|substr=5,2}/{$v.id}.html">{$v.title}</a>-->
+<!--<a href="/Home/News/newsDel/id/{$v['id']}" onclick="return confirm('确定删除吗?')">删除</a>&nbsp;-->
+{$page}
+
+<script src="__PUBLIC__/js/jquery.autocomplete.min.js"></script>
+<script>
+    $(function(){
+        $('.order').click(function() {
+            $("#order").val($(this).attr('alt'));
+            $("#form1").submit();
+        });
+        var select_cat = $('.dropdown-menu').find('.bg-primary').find('a').text();
+        $('input[name=search]').attr('placeholder',select_cat);
+    })
+
+    $(function() {
+        //初始化的时候拿到表单数据
+        var _select = $('#select-author').find("option:selected");
+        if(_select.val()!=''){
+            $(".select-input").val(_select.text());
+            $("#select-result").val(_select.val());
+        }
+        //下拉框变化的时候要显示的数据
+        $('#select-author').on('change', function(e) {
+            var _select = $('#select-author').find("option:selected");
+            $(".select-input").val(_select.text());
+            $("#select-result").val(_select.val());
+        });
+        //插件选择数据
+        var options = $('#select-author').find("option");
+        $('.select-input').AutoComplete({
+            data: ['全部',{$selectDom}],
+            afterSelectedHandler: function(data){
+                $("#select-result").val='';
+                options.each(function(i,v){
+                    if($(v).text()==data.value){
+                        $("#select-result").val($(v).val());
+                        return false;
+                    }
+                })
+            }
+        });
+        //查看kol原文
+        $('.kol').on('click',function(){
+            $('#view-title').text('原文内容');
+            $('#view-body').html('暂无');
+            var _this = $(this);
+            $.ajax({
+                url:_this.attr('data-herf'),
+                dateType:'html',
+                success:function(data){
+                    $('#view-title').html('原文内容');
+                    $('#view-body').html(data);
+                    $('#myModal').modal('show');
+                },
+                error:function(){
+                    alert('看不到？哎，人品啊 ←_← ！');
+                }
+            })
+        })
+
+    });
+
+</script>

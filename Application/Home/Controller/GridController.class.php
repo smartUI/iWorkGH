@@ -26,70 +26,145 @@ class GridController extends Controller {
         if(!session('nickname')){
             $this->redirect('/Home/Index/login');
         }
+
+        $this->model = new \Home\Model\GridModel();
+
+        $this->pageType = I('get.pageType','','string');//页面类型（宫格｜信息流）
+        $this->pageName = I('get.pageModel','','string');//页面模板文件名字
+
     }
 
+    /**
+     * PAGE－宫格列表
+     */
     public function index(){
+        $this->gridList();
+    }
 
-        $issetpasswd = I('get.issetpasswd',0,'int');
-        $nickname=I('session.nickname','','string');
-        $id=I('session.admin_id',0,'int');
-
-        $model = new \Home\Model\AdminModel();
-        $field = array("admin.admin_id,admin.portrait, admin.name, admin.nickname,admin.app_user, admin.email,admin.description,admin.status, role.id,role.name");
-        $table = array('juzi_admin'=>'admin','juzi_role_admin'=>'admin_role','juzi_role'=>'role');
-        $result = $model->table($table)->field($field)->where('admin.admin_id='.$id.' AND admin_role.admin_id='.$id.' AND role.id=admin_role.role_id')->find();
-        //var_dump($model->getLastSql());
-
-        $this->assign('admin',$result);
-        $this->assign('issetpasswd', $issetpasswd);
+    /**
+     * PAGE－宫格列表
+     */
+    public function gridList(){
+        $offset = I('get.page',1,'int');
+        $list = $this->model->gridList($offset,1);
+        $this->assign('list',$list);
         $this->display();
+    }
 
+    /**
+     * 返回表格数据结构
+     * @return array
+     */
+    private function getGridFromData(){
+        return array(
+            'title' => I('post.title','','htmlspecialchars'),
+            'icon' => I('post.icon','','htmlspecialchars'),
+            'url' => I('post.url','','htmlspecialchars'),
+            'rank' => I('post.rank',1,'int'),
+            'status' => I('post.status',1,'int')
+        );
+    }
+
+    /**
+     * ACTION－添加宫格
+     */
+    public function subEdit(){
+        $id = I('get.id', 0, 'int');
+
+        if (IS_POST && !$id) {//执行添加操作
+            $this->upload(function($upload,$info){
+                if(!$info) {// 上传错误提示错误信息
+                    $this->error($upload->getError());
+                }else{// 上传成功
+
+                    $data = $this->getGridFromData();
+                    $data['icon'] = $info['icon']['savepath'] . $info['icon']['savename'];
+
+                    $update = $this->model->gridAdd($data);
+                    if ($update >= 0) {
+                        $this->success('添加成功！', U('Home/Grid/gridList'));
+                    } else {
+                        $this->error('添加失败！');
+                    }
+                }
+            });
+
+        }else if (IS_POST && $id){//修改
+            $data = $this->getGridFromData();
+
+            if( $_FILES['icon']['error'] ===0 && $_FILES['icon']['size'] > 0 ){
+                $this->upload(function($upload,$info){
+                    if(!$info) {// 上传错误提示错误信息
+                        $this->error($upload->getError());
+                    }else{// 上传成功
+                        $data['icon'] = $info['icon']['savepath'] . $info['icon']['savename'];
+                        $update = $this->model->gridSave( I('get.id', 0, 'int'), $data );
+                        if ($update) {
+                            $this->success('修改成功！', U('Home/Grid/gridList'));
+                        } else {
+                            $this->error('修改失败！');
+                        }
+                    }
+                });
+
+            }else{
+                $data['icon'] = I('post.pre_icon','','htmlspecialchars');
+                $res = $this->model->gridSave($id,$data);
+                if ($res) {
+                    $this->success('修改成功！', U('Home/Grid/gridList'));
+                } else {
+                    $this->error('修改失败！');
+                }
+            }
+        }else{
+            $this->error('非法操作！');
+        }
     }
 
 
     /**
-     * 编辑
+     * PAGE－编辑
      */
     public function edit(){
-        $this->model = D('Grid');
-        $id = I('id', 0, 'int');
+        $id = I('id', '', 'int');
+        $detail = $this->model->gridGetOne($id);
+        $this->assign('grid',$detail);
+        $this->display();
+    }
 
-        if (IS_POST && !$id) {//执行添加操作
-
-            $post_data = $_POST;
-            unset($post_data['id']);
-
-            //上传ICON
-            $config = array(
-                'maxSize'    =>    3145728,
-                'rootPath'   =>    './Uploads/',// 设置附件上传根目录
-                'savePath'   =>    '',// 设置附件上传（子）目录
-                'saveName'   =>    array('uniqid',''),
-                'exts'       =>    array('jpg', 'gif', 'png', 'jpeg'),
-                'autoSub'    =>    true,
-                'subName'    =>    array('date','Ymd'),
-            );
-            $upload = new \Think\Upload($config);// 实例化上传类
-
-            // 上传文件
-            $info = $upload->upload();
-            if(!$info) {// 上传错误提示错误信息
-                $this->error($upload->getError());
-            }else{// 上传成功
-                $post_data['icon'] = $info['icon']['savepath'] . $info['icon']['savename'];
-                $update = $this->model->gridAdd($post_data);
-                if ($update >= 0) {
-                    $this->success('添加成功！', U('Home/Grid/gridList'));
-                } else {
-                    $this->error('添加失败！');
-                }
-            }
-
-
-        }else if(IS_POST && $id){//执行修改操作
-
-        }else{
-            $this->error('非法操作！');
+    /**
+     * ACTION－删除
+     */
+    public function delete(){
+        $id = I('id', '', 'int');
+        $res = $this->model->gridDeleteOne($id);
+        if ($res) {
+            $this->success('删除成功！', U('Home/Grid/gridList'));
+        } else {
+            $this->error('删除失败！');
         }
+    }
+
+    /**
+     * 上传文件封装
+     * @param $callback
+     * @return array|bool
+     */
+    private function upload($callback){
+        //上传ICON
+        $config = array(
+            'maxSize'    =>    3145728,
+            'rootPath'   =>    './Uploads/',// 设置附件上传根目录
+            'savePath'   =>    '',// 设置附件上传（子）目录
+            'saveName'   =>    array('uniqid',''),
+            'exts'       =>    array('jpg', 'gif', 'png', 'jpeg'),
+            'autoSub'    =>    true,
+            'subName'    =>    array('date','Ymd'),
+        );
+        $upload = new \Think\Upload($config);// 实例化上传类
+        // 上传文件
+        $info = $upload->upload();
+        $callback($upload,$info);
+        return $info;
     }
 }

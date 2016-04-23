@@ -1,0 +1,306 @@
+<style>
+    .news-img ,.news-img img{max-width: 200px;}
+    .right-tip{padding: 10px; position: fixed;bottom: 10%; right: 16px; z-index: 1000;}
+    .right-tip .alert{padding: 8px; margin-bottom: 10px;}
+    .right-tip .glyphicon{font-size: 30px; margin: 0px 4px; cursor: pointer;}
+    .modal img{max-width: 100%;}
+    .tag-add{margin-left: 5px;}
+</style>
+<h4 id="news_edit">修改新闻</h4>
+
+<form class="form-horizontal" method="post" action="/Home/News/newsEdit/id/{$detail['id']}" enctype="multipart/form-data">
+
+    <div class="form-group" style="text-align:right;">
+            <input name="author" class="form-control hidden" value="{$detail['author']}">
+            <span class="glyphicon glyphicon-user">作者:[{$detail['author']}]{$detail['nickname']}</span>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-1 control-label">索引图</label>
+        <div class="col-xs-11">
+            <!--<img class="col-sm-12 news-img" src="{$Think.config.IMG_HOST}{$detail['img']}">-->
+            <div id="preview" class="news-img">
+                <img id="imghead" class="news-img" border=0 src="{$detail['img']}">
+            </div>
+                <input type="file" name="file" title="重选APP横图" class="btn-primary" data-filename-placement="inside" style="position: absolute;opacity:0;">
+                <input name="file_img" value="{$detail['img']}" type="hidden">
+                <span id="imginfo" class="label label-warning">{$headimginfo}要求尺寸800*600</span>
+                <br/>
+            <label class="checkbox">
+              <input type="checkbox" name="headmap" value="1" <eq name="attr.headmap" value="1">checked</eq>> 禁止正文显示索引图
+            </label>
+            
+        </div>
+        <div class="col-xs-3" style="position: absolute;right:30px; top: 25px;">
+            <if condition="$detail['web'] neq '' ">
+            <img class="news-img" src="{$detail['web']}">
+            <span class="label label-warning">web竖图预览</span>
+
+                <!--<input type="file" name="file_web" title="重选WEB竖图" class="btn-primary" data-filename-placement="inside" style="position: absolute;opacity:0;">
+                <input name="file_web" value="{$detail['web']}" type="hidden">-->
+
+            </if>
+        </div>
+
+    </div>
+
+    <div class="form-group">
+        <label for="input1" class="col-xs-1 control-label">标题</label>
+        <div class="col-xs-5">
+            <input name="oldCateId" value="{$detail['category']}"      TYPE="HIDDEN" >
+            <input name="oldCatePid" value="{$detail['category_pid']}" TYPE="HIDDEN" >
+            <input type="text" name="title" class="form-control" id="input1" placeholder="标题" value="<php> echo $detail['title']; </php>" required>
+        </div><span class="label label-warning">最适长度18</span>
+    </div>
+
+    <div class="form-group">
+        <label for="input5" class="col-xs-1 control-label">频道</label>
+        <div class="col-xs-5">
+        
+            <select class="form-control input-md" id="input5" name="category">
+            <if condition="$detail['source_id'] eq 0" >
+                <foreach name="category" item="v">
+                    <option value="0-{$v['id']}" disabled>{$v.name} </option>
+                    <foreach name="v.child" item="c">
+                        	<option value="{$v['id']}-{$c['id']}" {$c[id]==$detail[category] ? 'selected' : ''} >&nbsp;&nbsp;|--{$c.name}</option>
+                    </foreach>
+                </foreach>
+             <else />
+                  <foreach name="category" item="v">
+                    <option value="0-{$v['id']}" {$v[id]==$detail[category_pid] ? 'selected' : ''} >{$v.name} </option>
+                </foreach>
+             
+             </if>
+            </select>
+        </div><span class="label label-warning">必选</span>
+    </div>
+    <div class="form-group">
+        <label for="input2" class="col-xs-1 control-label">摘要</label>
+        <div class="col-xs-5">
+            <textarea name="description" class="form-control" id="input2" >{$detail['description']}</textarea><span class="label label-warning pull-right">如不填写，则自动截取内容前150字</span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="container" class="col-xs-1 control-label">内容</label>
+        <div class="col-xs-10">
+            <script id="container" name="content" type="text/plain">{$detail['content']|html_entity_decode}</script>
+            <!--<span class="label label-warning">视频格式:</span>&nbsp;K@链接地址@K  <span class="label label-warning">投票格式:</span>&nbsp;V@投票项目的ID值@V  <span class="label label-warning">投票组格式:</span>&nbsp;G@投票组项目的ID值@G-->
+            <span class="label label-warning">添加插件:&nbsp;请从工具栏中操作</span>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+
+        <label for="container" class="col-xs-1 control-label">标签</label>
+        <div class="col-xs-10">
+            <div class="tag-container">
+                <foreach name="detail['tags']" item="t">
+                    <div class="btn btn-primary news-tag pull-left" role="alert"><input name="tag[]" type="hidden" value="{$t.tag_id}"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>{$t.title}</div>
+                </foreach>
+            </div>
+
+            <div style="width: 100%; clear: both">
+                <div class="btn btn-success tag-match pull-left">重新匹配标签</div>
+                <div class="btn btn-success tag-add pull-left">手动添加 </div>
+                <span class="label label-warning">请输入至少一个标签</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group" style="display:none;">
+        <label  class="col-xs-1 control-label small">前端模板</label>
+        <div class="col-xs-11 news-style-models">
+            <foreach name="imgs" item="v" key="k">
+                <div class="col-xs-2">
+                    <label for="{$k-1}" class="type-label"><img class="col-xs-10 type-img {$k-1==$detail['style'] ? 'img-thumbnail' : ''}" for="{$k-1}" src="__PUBLIC__/img/style/{$v}"></label>
+                    <input value="{$k-1}" type="radio" name="style" id="{$k-1}" hidden  {$k-1==$detail['style'] ? 'checked' : ''}>
+                </div>
+            </foreach>
+        </div>
+    </div>
+    <!--<div class="form-group">
+        <label for="input6" class="col-sm-1 control-label">明星</label>
+        <div class="col-sm-5">
+            <input type="text" name="star" class="form-control" id="input6" placeholder="添加明星" value="{$detail['star']}">
+        </div>
+    </div>-->
+    <div class="form-group">
+        <label for="input7" class="col-xs-1 control-label small">发布时间</label>
+        <div class="col-xs-3">
+
+            <input type="text" name="publish_time" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:00'})" value="{$detail['publish_time']=='0000-00-00 00:00:00' ? '' : $detail['publish_time']}" class="form-control js-datepicker readonly Wdate" id="input7" placeholder="默认审核通过即发布" readonly style="height: auto">
+
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label  class="col-xs-1 control-label small">进入精选</label>
+        <div class="col-xs-3">
+                <input type="radio" {$attr['feed']=='1' ? 'checked' : ''} name="feed" value="1"  /> 是
+                &nbsp; &nbsp;
+                <input type="radio" {$attr['feed']!='1' ? 'checked' : ''}  name="feed"  value="0" /> 否
+        </div>
+    </div>
+
+    <div class="form-group">
+    <label  class="col-xs-1 control-label small">特殊位</label>
+    <div class="col-xs-5">
+        <input type="radio"  name="special" value="0" {$special=='0' ? 'checked="checked"' : ''}  /> 不设置
+        &nbsp; &nbsp;
+        <input type="radio"  name="special" value="1" {$special=='1' ? 'checked="checked"' : ''} /> 大图
+        &nbsp; &nbsp;
+        <input type="radio"  name="special" value="2" {$special=='2' ? 'checked="checked"' : ''}/> 视频
+<!--         &nbsp; &nbsp;
+        <input type="radio"  name="special" value="3" {$special=='3' ? 'checked="checked"' : ''}/> 三图 -->
+    </div>
+</div>
+
+     <div class="form-group">
+        <label  class="col-xs-1 control-label small">添加水印</label>
+        <div class="col-xs-3">
+        
+            <input type="radio" {$attr['water']=='1' ? 'checked' : '' }  name="water" value="1"  /> 是
+            &nbsp &nbsp
+            <input type="radio"  {$attr['water']!='1' ? 'checked' : '' }   name="water" value="0" /> 否
+        </div>
+    </div>
+
+     <div class="form-group">
+        <label  class="col-xs-1 control-label small">图片标签</label>
+        <div class="col-xs-3">
+               <select class="form-control input-md" id="img_tag" name="img_tag">
+                <option value="0" {$attr['img_tag']=='0' ? 'selected' : '' } >无</option>
+                <option value="9" {$attr['img_tag']=='9' ? 'selected' : '' } >视频</option>
+                <option value="1" {$attr['img_tag']=='1' ? 'selected' : '' } >测</option>
+                <option value="2" {$attr['img_tag']=='2' ? 'selected' : '' } >独</option>
+                <option value="3" {$attr['img_tag']=='3' ? 'selected' : '' } >独家</option>
+                <option value="4" {$attr['img_tag']=='4' ? 'selected' : '' } >哈</option>
+                <option value="5" {$attr['img_tag']=='5' ? 'selected' : '' } >惊</option>
+                <option value="6" {$attr['img_tag']=='6' ? 'selected' : '' } >美</option>
+                <option value="7" {$attr['img_tag']=='7' ? 'selected' : '' } >萌</option>
+                <option value="8" {$attr['img_tag']=='8' ? 'selected' : '' } >热</option>
+                <!-- <option value="10" {$attr['img_tag']=='10' ? 'selected' : '' } >H5</option> -->
+                <option value="11" {$attr['img_tag']=='11' ? 'selected' : '' } >污</option>
+                <option value="12" {$attr['img_tag']=='12' ? 'selected' : '' } >燃</option>
+            </select>
+        </div>
+    </div>
+
+    <div>
+        <input name="old_find" value="{$old_find}"      TYPE="HIDDEN" >
+    </div>
+
+    <div class="form-group">
+        <label for="input6" class="col-xs-1 control-label">发现页</label>
+        <div class="col-xs-3">
+            <select class="form-control input-md" id="input6" name="find">
+                <option value="0">请选择</option>
+                <foreach name="find" item="v">
+                    <option value="{$v.id}" {$v[id]==$old_find ? 'selected' : ''} >&nbsp;&nbsp;|--{$v.name}</option>       
+                </foreach>
+            </select><span class="label label-warning">非必选</span>
+        </div></div>
+    </div>
+
+    <input name="status" value="{$attr['status']}"  TYPE="HIDDEN" >
+        <div class="form-group">
+        <div class="col-xs-offset-1 col-xs-10">
+            <button type="button" id="estimate" class="btn btn-default">估算流量</button> &nbsp; 这篇文章在3G下（iphone5s）消耗流量总共约 <font color='red' id="rate" >0</font> KB, 打开时间约<font color='red' id="seconds" >0</font> 秒
+        </div>
+        <div class="col-xs-offset-1 col-xs-10">
+                <p>&nbsp;</p>
+        </div>
+    </div>
+    
+    <div class="form-group">
+        <div class="col-xs-offset-1 col-xs-10">
+        	<input type="hidden" name="iskol" id="iskol" value="{$detail['source_id']}" />
+            <button type="submit" class="btn btn-default">保存</button>
+        </div>
+    </div>
+</form>
+
+<!--模态框-->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="view-title">Modal title</h4>
+            </div>
+            <div class="modal-body" id="view-body">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <!--<button type="button" class="btn btn-primary">Save changes</button>-->
+            </div>
+        </div>
+    </div>
+</div>
+<!--模态框-->
+<include file="Application/Home/View/News/newsModal.html" />
+
+<!--右侧浮动-->
+<div class="right-tip col-sm-1 col-xs-2">
+    <div class="alert alert-info {$detail['source_id']==0 ? 'hidden' : ''}" >
+        来源KOL
+        <a class="kol" data-herf="/Home/News/newsViewKol/kolid/{$detail['source_id']}">查看原文</a>
+    </div>
+    <span class="glyphicon glyphicon-circle-arrow-up" id="toTop" aria-hidden="true" title="去顶部"></span>
+    <span class="glyphicon glyphicon-circle-arrow-down" id="toBottom" aria-hidden="true" title="到底部"></span>
+</div>
+
+<script type="text/javascript" src="__PUBLIC__/js/My97DatePicker/WdatePicker.js" charset="UTF-8"></script>
+<js href="__PUBLIC__/js/jquery-2.0.2.js" />
+
+<js href="__PUBLIC__/ueditor/ueditor.config.js" />
+<js href="__PUBLIC__/ueditor/ueditor.all.min.js" />
+<js href="__PUBLIC__/js/news_add_edit.js" />
+<js href="__PUBLIC__/js/preview_img.js" />
+<js href="__PUBLIC__/js/forbiddenBackspace.js" />
+<!--关于文章编辑和上传的的方法-->
+
+<script>
+    var time = '{$Think.config.KEEP_ALIVE}';
+    setInterval("myInterval()",1000 * time);//1000为1秒钟
+    function myInterval() {
+        $.ajax({
+            type: "post",
+            url: "/Home/index/setInterval",
+            success: function (data) {
+                
+            }
+        });
+    }
+    $(function(){
+        //查看kol原文
+        $('.kol').on('click',function(){
+            $('#view-title').text('原文内容');
+            $('#view-body').html('暂无');
+            var _this = $(this);
+            $.ajax({
+                url:_this.attr('data-herf'),
+                dateType:'html',
+                success:function(data){
+                    console.log(data);
+                    $('#view-title').html('原文内容');
+                    $('#view-body').html(data);
+                    $('#myModal').modal('show');
+                },
+                error:function(){
+                    alert('看不到？哎，人品啊 ←_← ！');
+                }
+            })
+        })
+    })
+    //估算流量
+        $("#estimate").click(function() {
+    	var content = UE.getEditor('container').getContent();
+    	$.post("/home/news/estimateSize", {'content':content}, function(data) {
+    		$("#rate").text(data.total);
+    		$("#seconds").text(data.seconds);
+    	});
+    });
+</script>
