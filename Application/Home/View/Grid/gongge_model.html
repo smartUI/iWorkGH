@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html id="gongge">
 <head lang="en">
     <meta charset="UTF-8">
     <title>{$title}</title>
@@ -9,36 +9,30 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
     <meta name="format-detection" content="telephone=no"/>
     <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
-
     <style>
         html{font-size: 16px;font-family: microsoft yahei, "黑体", Arial, Simsun, "Arial Unicode MS", Mingliu, Helvetica;}
-        body{padding: 0px;margin: 0px;max-width: 640px;margin: 0px auto;}
+        body{padding: 0;max-width: 640px;margin: 0 auto;}
         .hidden{display: none;}
         .list-head{width: 100%;height:210px;border-bottom: 3px solid #fff;}
-
         #gongge .list{float: left;width: 10rem;height: 10rem;}
-        .clear{clear:both;width: 0px; height: 0px;}
+        .clear{clear:both;width: 0; height: 0;}
         @media screen and (min-width:640px){#gongge .list{width: 50%;height: 320px;} #gongge .list-head{height: 420px;} }
     </style>
 </head>
 <body>
 
-<div id="gongge">
+<div>
 
     {$imgHead}
 
     <div class="list-head" style="background: url(http://images11.app.happyjuzi.com/content/201604/21/5718df09d1353.jpg!ac1);background-size: cover;"></div>
 
-    <div class="list" data-href="" style="background: url(http://images11.app.happyjuzi.com/content/201604/21/5718df09d1353.jpg!ac1);background-size: cover;"></div>
-
-    {$content}
+    <foreach name="data" item="vo">
+        <div class="list" data-href="" style="background:url(/Uploads/{$vo.icon});background-size: cover;"></div>
+    </foreach>
 
     <div class="clear"></div>
 
 </div>
 </body>
-<script>
-    
-</script>
-
 </html>

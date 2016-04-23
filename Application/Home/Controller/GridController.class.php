@@ -56,6 +56,8 @@ class GridController extends Controller {
         $offset = I('get.page',1,'int');
         $list = $this->model->gridList($offset,$this->pageModel);
         $this->assign('list',$list);
+
+        $this->buildPage($this->pageModel,$list);
         $this->display();
     }
 
@@ -151,6 +153,13 @@ class GridController extends Controller {
         } else {
             $this->error('删除失败！');
         }
+    }
+
+
+    private function buildPage($page_id,$data,$mod='gongge'){
+        layout(false);
+        $this->assign('data',$data);
+        $this->buildHtml($page_id.'.html','Html/',$mod.'_model');
     }
 
     /**
