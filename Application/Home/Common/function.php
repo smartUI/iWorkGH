@@ -35,7 +35,7 @@ function menu() {
 
 	//组合“内容管理菜单”
 
-	$slider = '<dl class="menu"><dt><span class="glyphicon glyphicon-th-large"></span> <strong>信息管理</strong></dt><dd class="Index Admin"> <a href="/home/index/index">我的面板</a></dd><dd class=" Pages"> <a href="/Home/Pages/pagesList">页面管理</a></dd>' .
+	$slider = '<dl class="menu"><dt><span class="glyphicon glyphicon-th-large"></span> <strong>信息管理</strong></dt><dd class="Index Admin"> <a href="/Home/Index/index">我的面板</a></dd><dd class=" Pages"> <a href="/Home/Pages/pagesList">页面管理</a></dd>' .
 			'</dl>';
 
 	$slider1 = '';
