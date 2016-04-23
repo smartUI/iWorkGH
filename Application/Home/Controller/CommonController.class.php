@@ -93,17 +93,18 @@ class CommonController extends Controller {
                 $key = '/'.$rootfolder.'/'.$val['savepath'].$val['savename'];
                 $realpath = realpath(__ROOT__) .$key;
                 if($unify == 'true')    thumbimage($realpath);
-                if($this->qiniuupload($key, $realpath)){
+                /*if($this->qiniuupload($key, $realpath)){
                     $files[] = $key;
                 }else{
                     $files[] = '';
-                }
+                }*/
+                $files[] = $key;
             }
             //echo(json_encode($files));
             $this->success($files, '', true);
         }
     }
-    private function qiniuupload($key, $realpath){
+    /*private function qiniuupload($key, $realpath){
         $qiniu = new \Vendor\Qiniu();
         //$realpath = realpath(__ROOT__) .$key;
         $isUpload = $qiniu->upload($key, $realpath);
@@ -111,5 +112,5 @@ class CommonController extends Controller {
             return false;
         }
         return true;
-    }
+    }*/
 }
