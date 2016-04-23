@@ -57,7 +57,7 @@ class GridController extends Controller {
      */
     private function getGridFromData(){
         return array(
-            'title' => I('post.title','','htmlspecialchars'),
+            'page_id' => I('post.page_id','','htmlspecialchars'),
             'icon' => I('post.icon','','htmlspecialchars'),
             'url' => I('post.url','','htmlspecialchars'),
             'rank' => I('post.rank',1,'int'),
