@@ -78,9 +78,6 @@ class GridController extends Controller {
      */
     public function subEdit(){
         $id = I('get.id', 0, 'int');
-        $_SERVER['HTTP_REFERER']=$_SERVER['HTTP_REFERER'];
-        var_dump($_SERVER['HTTP_REFERER']);
-
         if (IS_POST && !$id) {//执行添加操作
             $this->upload(function($upload,$info){
                 if(!$info) {// 上传错误提示错误信息
@@ -92,7 +89,7 @@ class GridController extends Controller {
 
                     $update = $this->model->gridAdd($data);
                     if ($update >= 0) {
-                        $this->success('添加成功！', U('Home/Grid/gridList'));
+                        $this->success('添加成功！', U(cookie('grid_list_url')));
                     } else {
                         $this->error('添加失败！');
                     }
@@ -110,7 +107,7 @@ class GridController extends Controller {
                         $data['icon'] = $info['icon']['savepath'] . $info['icon']['savename'];
                         $update = $this->model->gridSave( I('get.id', 0, 'int'), $data );
                         if ($update) {
-                            $this->success('修改成功！', U('Home/Grid/gridList'));
+                            $this->success('修改成功！', U(cookie('grid_list_url')));
                         } else {
                             $this->error('修改失败！');
                         }
@@ -121,7 +118,7 @@ class GridController extends Controller {
                 $data['icon'] = I('post.pre_icon','','htmlspecialchars');
                 $res = $this->model->gridSave($id,$data);
                 if ($res) {
-                    $this->success('修改成功！', U('Home/Grid/gridList'));
+                    $this->success('修改成功！', U(cookie('grid_list_url')));
                 } else {
                     $this->error('修改失败！');
                 }
@@ -139,6 +136,7 @@ class GridController extends Controller {
         $id = I('id', '', 'int');
         $detail = $this->model->gridGetOne($id);
         $this->assign('grid',$detail);
+        cookie('grid_list_url',$_SERVER['HTTP_REFERER']);
         $this->display();
     }
 
@@ -149,7 +147,7 @@ class GridController extends Controller {
         $id = I('id', '', 'int');
         $res = $this->model->gridDeleteOne($id);
         if ($res) {
-            $this->success('删除成功！', U('Home/Grid/gridList'));
+            $this->success('删除成功！', U(cookie('grid_list_url')));
         } else {
             $this->error('删除失败！');
         }
