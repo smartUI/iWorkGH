@@ -23,11 +23,38 @@ return array(
             'title' => '企业介绍',
             'type' => '宫格'
         ),
-        'huodong' => array(
-            'title' => '企业介绍',
+        'wenhua' => array(
+            'title' => '企业文化',
             'type' => '宫格'
         ),
+        'zeren' => array(
+            'title' => '社会责任',
+            'type' => '宫格'
+        ),
+        'huodong' => array(
+            'title' => '员工活动',
+            'type' => '信息流'
+        ),'dongtai' => array(
+            'title' => '最新动态',
+            'type' => '信息流'
+        ),'baodao' => array(
+            'title' => '媒体报道',
+            'type' => '信息流'
+        ),'guancha' => array(
+            'title' => '行业观察',
+            'type' => '信息流'
+        ),'touzi' => array(
+            'title' => '投资我们',
+            'type' => '宫格'
+        ),'caibao' => array(
+            'title' => '企业财报',
+            'type' => '信息流'
+        ),'gonggao' => array(
+            'title' => '企业公告',
+            'type' => '信息流'
+        ),'yanbao' => array(
+            'title' => '企业研告',
+            'type' => '信息流'
+        )
     )
-//        'wenhua'], //
-//    'liebiao' => ['huodong','dongtai'],
 );
