@@ -16,17 +16,18 @@
             </div>
         </div>
     </div>
-    <div class="form-group">
-        <label for="page_id" class="col-sm-2 control-label">宫格名称</label>
+    <!--<div class="form-group">-->
+        <!--<label for="page_id" class="col-sm-2 control-label">宫格名称</label>-->
 
-        <div class="col-sm-6">
-            <input name="page_id" type="text" class="form-control" id="page_id" required="true" value="{$grid.page_id}">
-        </div>
-    </div>
+        <!--<div class="col-sm-6">-->
+            <!--<input name="page_id" type="text" class="form-control" id="page_id" required="true" value="{$grid.page_id}">-->
+        <!--</div>-->
+    <!--</div>-->
     <div class="form-group">
         <label for="url" class="col-sm-2 control-label">宫格链接</label>
 
         <div class="col-sm-6">
+            <input name="page_id" type="hidden" style="display:none" class="form-control" id="page_id" required="true" value="{$grid.page_id}">
             <input name="url" type="text" class="form-control" id="url" value="{$grid.url}"><!--<span class="label label-warning">完整都URL地址</span>-->
         </div>
     </div>

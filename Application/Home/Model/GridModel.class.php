@@ -59,9 +59,9 @@ class GridModel extends model {
 	/**
      * 显示所有宫格信息
      */
-	public function gridList($page,$status) {
+	public function gridList($page,$page_id,$status=1) {
         $field = array('id', 'page_id', 'icon', 'url', 'status', 'rank');
-		$result = $this->model->page($page, C('PER_PAGE'))->field($field)->where('status=' . $status)->order('id,rank')->select();
+		$result = $this->model->page($page, C('PER_PAGE'))->field($field)->where('`page_id`=\''. $page_id .'\' and `status`=' . $status)->order('id,rank')->select();
         //var_dump($this->model->getLastSql());
         return $result;
 	}

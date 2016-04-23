@@ -29,8 +29,16 @@ class GridController extends Controller {
 
         $this->model = new \Home\Model\GridModel();
 
-        $this->pageType = I('get.pageType','','string');//页面类型（宫格｜信息流）
-        $this->pageName = I('get.pageModel','','string');//页面模板文件名字
+        $this->pageModel = I('get.pageModel','','string');//页面模板文件名字
+        $this->pageModelInfo = C('PAGE_TYPE');
+
+
+        if( !isset( $this->pageModelInfo[ $this->pageModel ] ) ){
+            //$this->error('模板ID错误');
+        }else{
+            $this->assign('pageModel' , $this->pageModel);
+            $this->assign('pageModelInfo',$this->pageModelInfo[ $this->pageModel ]);
+        }
 
     }
 
@@ -46,7 +54,7 @@ class GridController extends Controller {
      */
     public function gridList(){
         $offset = I('get.page',1,'int');
-        $list = $this->model->gridList($offset,1);
+        $list = $this->model->gridList($offset,$this->pageModel);
         $this->assign('list',$list);
         $this->display();
     }
@@ -70,6 +78,8 @@ class GridController extends Controller {
      */
     public function subEdit(){
         $id = I('get.id', 0, 'int');
+        $_SERVER['HTTP_REFERER']=$_SERVER['HTTP_REFERER'];
+        var_dump($_SERVER['HTTP_REFERER']);
 
         if (IS_POST && !$id) {//执行添加操作
             $this->upload(function($upload,$info){
