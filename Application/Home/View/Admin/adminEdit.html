@@ -1,0 +1,32 @@
+<h4> 修改管理员信息 </h4>
+<form class="form-horizontal col-sm-7" action="/iWorkGH/Home/Admin/adminEdit/id/{$admin['admin_id']}" method="post"  enctype="multipart/form-data">
+
+    <div class="form-group">
+        <label for="role_name" class="col-sm-2 control-label">姓名</label>
+
+        <div class="col-sm-6">
+            <input name="nickname" type="text" class="form-control" id="role_name" required="true" value="{$admin.nickname}">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="password" class="col-sm-2 control-label">密码</label>
+        <div class="col-sm-6">
+            <input name="password" type="text" class="form-control" id="password"><span class="label label-warning">不作修改置空</span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="password2" class="col-sm-2 control-label">确认密码</label>
+        <div class="col-sm-6">
+            <input name="password2" type="text" class="form-control" id="password2"><span class="label label-warning">重复输入密码</span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-9">
+            <button type="submit" class="btn btn-default">确定</button>
+        </div>
+    </div>
+</form>
+
+

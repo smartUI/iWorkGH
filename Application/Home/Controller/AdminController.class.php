@@ -16,49 +16,6 @@ class AdminController extends CommonController {
 		$this->adminList();
 	}
 
-	//ueditor编辑器
-	public function ueditor() {
-		$data = new \Org\Util\Ueditor();
-		echo $data->output();
-	}
-
-	//添加管理员（显示表单和处理）
-	public function adminAdd() {
-		if (IS_POST) {
-			$admin = array(
-				'name' => I('post.name', '', 'string'),
-				'nickname' => I('post.nickname', '', 'string'),
-				'app_user' => I('post.app_user', '', 'string'),
-				'asname' => I('post.asname', '', 'string'),
-				'email' => I('email', '', 'string'),
-				'password' => md5('123456'),
-				'add_time' => date('Y-m-d H:i:s'),
-				'last_time' => date('Y-m-d H:i:s'),
-				'description' => I('post.description', '', 'string'),
-				'category_id' =>I('post.category_id'),
-			);
-			//插入到数据库
-			if ($id = D('Admin')->adminAdd($admin)) {
-				$role = array(
-					'role_id' => I('role_id'),
-					'admin_id' => $id,
-				);
-				//添加角色关系
-				if (M('role_admin')->add($role)) {
-					$this->success('添加成功！', U('Home/Admin/adminList'));
-				}
-			} else {
-				$this->error('添加失败！');
-			}
-
-		} else {
-			//角色分配，先查询所有角色
-			$this->roles = M('Role')->select();
-			$this->categorys = M('Category')->where('pid = 0 and id != 93')->field('name, id')->select();
-			$this->display();
-
-		}
-	}
 
 	//修改管理员信息
 	public function adminEdit() {
@@ -67,57 +24,39 @@ class AdminController extends CommonController {
 		if (IS_POST) {
 			$post_data = $_POST;
 			$pwd = $post_data['password'];
+			$pwd2 = $post_data['password2'];
 			$admin_id = I('get.id', 0, 'int');
 
-			//上传头像
-			$portrait = uploadImg('portrait');
-			$portrait == '' ? '' : $post_data['portrait'] = $portrait;
-
+            if($pwd!=$pwd2){
+                $this->error('密码不一致！');
+                die;
+            }
 			//密码判断
 			if ($pwd == '') {
 				unset($post_data['password']);
+				unset($post_data['password2']);
 			} else {
 				$post_data['password'] = md5($pwd);
 			}
-			//拆分数据-role_admin
-			$role_admin['role_id'] = $post_data['role_id'];
-			//拆分数据－admin
-			unset($post_data['role_id']);
-
-			//修改角色
-			M('role_admin')->where(array('admin_id' => $admin_id))->save($role_admin);
 
 			$update = $this->model->adminSave($admin_id, $post_data);
 
 			//修改管理员
 			if ($update >= 0) {
-				$this->success('管理员修改成功！', U('Home/Admin/adminList'));
+				$this->success('管理员修改成功！', U('Home/Index/index'));
 			} else {
 				$this->error('修改失败！');
 			}
 
 		} else if ($_GET) {
-			//如果是首页面开始的修改，重置侧栏加载地址
-			/*if(isset($_GET['type'])) {
-			$this->assign('sidebar', 'Public:sidebar');
-			//$this->sidebar = "Public:sidebar";
-			}*/
-
-			//显示修改的表单
-			//查询角色
-			$this->assign('roles', M('Role')->select());
-			$this->assign('categorys',M('Category')->where('pid = 0 and id != 93')->field('name, id')->select());
 			//查询原始数据
 			$id = I('admin_id', 0, 'int');
 			if ($id) {
-				//$this->admin = $this->model->where(array('admin_id'=>$id))->find();
-				$field = array("admin.admin_id,admin.portrait, admin.name, admin.nickname,admin.asname,admin.app_user, admin.email,admin.description,admin.status,admin.category_id, role.role_id");
-				$table = array('juzi_admin' => 'admin', 'juzi_role_admin' => 'role');
-				$result = M()->table($table)->field($field)->where('admin.admin_id=' . $id . ' AND role.admin_id=' . $id)->find();
+                $where = "`id`='1'";
+                $result = M('Admin')->where($where)->find();
 				$this->assign('admin', $result);
-				//dump($result);die;
 			}
-			$this->assign('admin_id', session('admin_id')); 
+			$this->assign('admin_id', session('admin_id'));
 			$this->display();
 		}
 	}

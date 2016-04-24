@@ -41,40 +41,6 @@ class IndexController extends Controller {
 
     }
 
-    public function setpasswd(){
-        $inputpasswd   = I('post.inputpasswd','','string');
-        $inputrepasswd = I('post.inputrepasswd','','string');
-        $issetpasswd = I('post.issetpasswd',0,"int");
-        $id            = I('session.admin_id',0,'int');
-        $md5inputpasswd = md5($inputpasswd);
-
-        $str = '';
-        if ($issetpasswd>0){
-            $str = '&issetpasswd='.$issetpasswd;
-        }
-
-        if($inputpasswd != $inputrepasswd){
-                $this->error('密码不一致', U('Home/Index/index', $str));
-        }
-
-        $result = M('Admin')->where(array('admin_id' => $id, 'issetpasswd' => array('gt', 0)))->find();
-        
-        if($result){
-            if($result['password'] == $md5inputpasswd){
-                $this->error('新密码和原密码是一样的', U('Home/Index/index', $str));
-            }
-
-            $update = D('Admin')->adminSave($id, array('password' => $md5inputpasswd, 'issetpasswd'=>0));
-            if ($update > 0) {
-                $this->success('管理员修改成功！', U('Home/Index/index'));
-            } else {
-                $this->error('修改失败！', U('Home/Index/index', $str));
-            }
-        }else{
-                $this->error('非法操作，请联系管理员', U('Home/Index/index', $str));
-        }
-    }
-
     public function login(){
         if(IS_POST){
             //$where = array('nickname'=>I('post.nickname',0,'string'), 'password'=>substr(md5(I('post.password',0,'string')),15),'status'=>'1');
