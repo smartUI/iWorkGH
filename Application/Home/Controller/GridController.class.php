@@ -102,42 +102,71 @@ class GridController extends Controller {
     public function subEdit(){
         $id = I('get.id', 0, 'int');
         if (IS_POST && !$id) {//执行添加操作
-            $this->upload(function($this,$upload,$info){
-                if(!$info) {// 上传错误提示错误信息
-                    $this->error($upload->getError());
-                }else{// 上传成功
 
-                    $data = $this->getGridFromData();
-                    $data['icon'] = $info['icon']['savepath'] . $info['icon']['savename'];
 
-                    $update = $this->model->gridAdd($data);
-                    if ($update >= 0) {
-                        $this->buildPage();
-                        $this->success('添加成功！', cookie('grid_list_url'));
-                    } else {
-                        $this->error('添加失败！');
-                    }
+            //上传ICON
+            $config = array(
+                'maxSize'    =>    3145728,
+                'rootPath'   =>    './Uploads/',// 设置附件上传根目录
+                'savePath'   =>    '',// 设置附件上传（子）目录
+                'saveName'   =>    array('uniqid',''),
+                'exts'       =>    array('jpg', 'gif', 'png', 'jpeg'),
+                'autoSub'    =>    true,
+                'subName'    =>    array('date','Ymd'),
+            );
+            $upload = new \Think\Upload($config);// 实例化上传类
+            // 上传文件
+            $info = $upload->upload();
+
+            if(!$info) {// 上传错误提示错误信息
+                $this->error($upload->getError());
+            }else{// 上传成功
+
+                $data = $this->getGridFromData();
+                $data['icon'] = $info['icon']['savepath'] . $info['icon']['savename'];
+
+                $update = $this->model->gridAdd($data);
+                if ($update >= 0) {
+                    $this->buildPage();
+                    $this->success('添加成功！', cookie('grid_list_url'));
+                } else {
+                    $this->error('添加失败！');
                 }
-            });
+            }
 
         }else if (IS_POST && $id){//修改
             $data = $this->getGridFromData();
 
             if( $_FILES['icon']['error'] ===0 && $_FILES['icon']['size'] > 0 ){
-                $this->upload(function($this,$upload,$info){
-                    if(!$info) {// 上传错误提示错误信息
-                        $this->error($upload->getError());
-                    }else{// 上传成功
-                        $data['icon'] = $info['icon']['savepath'] . $info['icon']['savename'];
-                        $update = $this->model->gridSave( I('get.id', 0, 'int'), $data );
-                        if ($update) {
-                            $this->buildPage();
-                            $this->success('修改成功！', cookie('grid_list_url'));
-                        } else {
-                            $this->error('修改失败！');
-                        }
+
+
+                //上传ICON
+                $config = array(
+                    'maxSize'    =>    3145728,
+                    'rootPath'   =>    './Uploads/',// 设置附件上传根目录
+                    'savePath'   =>    '',// 设置附件上传（子）目录
+                    'saveName'   =>    array('uniqid',''),
+                    'exts'       =>    array('jpg', 'gif', 'png', 'jpeg'),
+                    'autoSub'    =>    true,
+                    'subName'    =>    array('date','Ymd'),
+                );
+                $upload = new \Think\Upload($config);// 实例化上传类
+                // 上传文件
+                $info = $upload->upload();
+
+                if(!$info) {// 上传错误提示错误信息
+                    $this->error($upload->getError());
+                }else{// 上传成功
+                    $data['icon'] = $info['icon']['savepath'] . $info['icon']['savename'];
+                    $update = $this->model->gridSave( I('get.id', 0, 'int'), $data );
+                    if ($update) {
+                        $this->buildPage();
+                        $this->success('修改成功！', cookie('grid_list_url'));
+                    } else {
+                        $this->error('修改失败！');
                     }
-                });
+                }
+
 
             }else{
                 $data['icon'] = I('post.pre_icon','','htmlspecialchars');
@@ -197,28 +226,5 @@ class GridController extends Controller {
         $this->assign('banner',$banner);
         $this->assign('data',$list);
         $this->buildHtml($page_id.'.html','Html/',$mod.'_model');
-    }
-
-    /**
-     * 上传文件封装
-     * @param $callback
-     * @return array|bool
-     */
-    private function upload($callback){
-        //上传ICON
-        $config = array(
-            'maxSize'    =>    3145728,
-            'rootPath'   =>    './Uploads/',// 设置附件上传根目录
-            'savePath'   =>    '',// 设置附件上传（子）目录
-            'saveName'   =>    array('uniqid',''),
-            'exts'       =>    array('jpg', 'gif', 'png', 'jpeg'),
-            'autoSub'    =>    true,
-            'subName'    =>    array('date','Ymd'),
-        );
-        $upload = new \Think\Upload($config);// 实例化上传类
-        // 上传文件
-        $info = $upload->upload();
-        $callback($this,$upload,$info);
-        return $info;
     }
 }
