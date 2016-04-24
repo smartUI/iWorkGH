@@ -23,6 +23,26 @@
             </div>
         </div>
     </div>
+
+    <div class="form-group">
+        <label for="url" class="col-sm-2 control-label">类型设置</label>
+
+        <div class="col-sm-6">
+
+            <label class="radio" for="radios-grid">
+                <input type="radio" name="is_banner" label-text="<if condition="$is_gongge">宫格链接</if><if condition="$is_liebiao">信息链接</if>" id="radios-grid" value="0" <if condition="$grid['is_banner']=='0' || null==$grid['is_banner']">checked</if>>
+                设置为<span style="color:#d14432">
+                <if condition="$is_gongge">宫格</if>
+                <if condition="$is_liebiao">信息流</if>
+            </span>
+            </label>
+            <label class="radio" for="radios-banner">
+                <input type="radio" name="is_banner" id="radios-banner" label-text="头图标题" value="1" <if condition="$grid['is_banner']=='1'">checked</if>>
+                设置为<span style="color:#0000cc">头图</span>
+            </label>
+        </div>
+    </div>
+
     <!--<div class="form-group">-->
         <!--<label for="page_id" class="col-sm-2 control-label">宫格名称</label>-->
 
@@ -63,25 +83,6 @@
             </div>
         </div>
     </if>
-
-    <div class="form-group">
-        <label for="url" class="col-sm-2 control-label">类型设置</label>
-
-        <div class="col-sm-6">
-
-            <label class="radio" for="radios-grid">
-                <input type="radio" name="is_banner" label-text="<if condition="$is_gongge">宫格链接</if><if condition="$is_liebiao">信息链接</if>" id="radios-grid" value="0" <if condition="$grid['is_banner']=='0'">checked</if>>
-                设置为<span style="color:#d14432">
-                <if condition="$is_gongge">宫格</if>
-                <if condition="$is_liebiao">信息流</if>
-            </span>
-            </label>
-            <label class="radio" for="radios-banner">
-                <input type="radio" name="is_banner" id="radios-banner" label-text="头图标题" value="1" <if condition="$grid['is_banner']=='1'">checked</if>>
-                设置为<span style="color:#0000cc">头图</span>
-            </label>
-        </div>
-    </div>
 
     <div class="form-group">
         <label for="url" class="col-sm-2 control-label" id="lab-text">
