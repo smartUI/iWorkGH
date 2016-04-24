@@ -229,6 +229,7 @@ class GridController extends Controller {
         $page_id = $this->pageModel;
         $list = $this->model->gridList(1,$this->pageModel);
         $banner = $this->model->gridBrand($this->pageModel);
+        $this->assign('page_id',$this->pageModel);
         $this->assign('banner',$banner);
         $this->assign('data',$list);
         $this->buildHtml($page_id.'.html','Html/',$mod.'_model');
