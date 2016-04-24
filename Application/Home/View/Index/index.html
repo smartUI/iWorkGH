@@ -10,7 +10,7 @@
             登录管理员：<b>{:session('nickname')}</b>
             <br><br>
 
-            <a href="/Home/Admin/adminEdit?admin_id=1" class="btn btn-primary">修改账号</a>
+            <a href="/Home/Admin/adminEdit?admin_id={:session('admin_id')}" class="btn btn-primary">修改账号</a>
         </div>
     </div>
 </div>
