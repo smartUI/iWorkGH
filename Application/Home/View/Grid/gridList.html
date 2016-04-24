@@ -12,9 +12,47 @@
 
 <div class="row-fluid">
     <h4 style="display:inline;margin-right:20px;">{$pageModelInfo.title} - {$pageModelInfo.type}</h4>
-    <strong class="glyphicon glyphicon-wrench" style="line-height: 34px;display: inline-block;height: 34px;font-weight:bolder;">操作：</strong><a href="/Home/Grid/edit/pageModel/{$pageModel}" class="btn btn-primary">添加</a>
-</div><p>
-<table class="table table-hover" border="0">
+    <strong class="glyphicon glyphicon-wrench" style="line-height: 34px;display: inline-block;height: 34px;font-weight:bolder;">操作：</strong><a href="{:U('Home/Grid/edit')}/pageModel/{$pageModel}" class="btn btn-primary">添加</a>
+</div><p></p>
+
+<table class="table table-hover" border="0" style="border:1px solid #dddddd">
+    <thead>
+    <tr>
+        <th class="text-left news-id">ID</th>
+        <th class="text-left news-title">头图图片</th>
+        <th class="text-left news-add">头图标题</th>
+        <th class="text-left news-control">操作</th>
+    </tr>
+    </thead>
+    <tbody><!--<a href="/Home/News/newsHtml5/id/{$v.id}">-->
+    <foreach name="banner_list" item="v">
+        <tr>
+            <td class="text-left">{$v.id}</td>
+            <td class="text-left">
+                <a target="_blank" href="{:U('/Uploads')}/{$v.icon}">
+                    <img width="80" height="80" src="{:U('/Uploads')}/{$v.icon}">
+                </a>
+            </td>
+            <td class="text-left text-muted">{$v.url}</td>
+            <td class="text-left">
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                        <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>  操作
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="{:U('Home/Grid/delete')}/id/{$v.id}" onclick="return confirm('确定删除吗?')">删除</a></li>
+                        <li><a href="{:U('Home/Grid/edit')}/id/{$v.id}">修改</a></li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+    </foreach>
+    </tbody>
+</table>
+
+
+<table class="table table-hover" border="0" style="border:1px solid #dddddd">
     <thead>
     <tr>
         <th class="text-left news-id">ID</th>
@@ -28,8 +66,8 @@
         <tr>
             <td class="text-left">{$v.id}</td>
             <td class="text-left">
-                <a target="_blank" href="/Uploads/{$v.icon}">
-                    <img width="80" height="80" src="/Uploads/{$v.icon}">
+                <a target="_blank" href="{:U('/Uploads')}/{$v.icon}">
+                    <img width="80" height="80" src="{:U('/Uploads')}/{$v.icon}">
                 </a>
             </td>
             <td class="text-left text-muted"><a href="{$v.url}" target="_blank">{$v.url}</a></td>
@@ -40,8 +78,8 @@
                         <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="/Home/Grid/delete/id/{$v.id}" onclick="return confirm('确定删除吗?')">删除</a></li>
-                        <li><a href="/Home/Grid/edit/id/{$v.id}">修改</a></li>
+                        <li><a href="{:U('Home/Grid/delete')}/id/{$v.id}" onclick="return confirm('确定删除吗?')">删除</a></li>
+                        <li><a href="{:U('Home/Grid/edit')}/id/{$v.id}">修改</a></li>
                     </ul>
                 </div>
             </td>

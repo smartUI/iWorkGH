@@ -1,3 +1,4 @@
+<style>.form-group .radio, .form-group .checkbox{margin-left:20px;display:inline-block;margin-right:30px;cursor:pointer;}</style>
 <h4> 宫格信息管理 </h4>
 <form class="form-horizontal col-sm-7" onsubmit="return checkUrl()" action="/home/Grid/subEdit/id/{$grid.id}/pageModel/{$pageModel}" method="post" enctype="multipart/form-data">
     <div class="form-group">
@@ -6,7 +7,7 @@
             <!--<img class="col-sm-12" src="{$Think.config.IMG_HOST}{$admin.portrait}" style="margin-bottom: 5px;">-->
             <div id="preview">
                 <if condition="($grid['icon'] neq '')">
-                    <img id="imghead" style="max-width: 100%; max-height: 150px;" border="0" src="/Uploads/{$grid.icon}">
+                    <img id="imghead" style="max-width: 100%; max-height: 150px;" border="0" src="{:U('/Uploads')}/{$grid.icon}">
                 </if>
                 <input type="hidden" name="pre_icon" value="{$grid.icon}">
             </div>
@@ -24,7 +25,22 @@
         <!--</div>-->
     <!--</div>-->
     <div class="form-group">
-        <label for="url" class="col-sm-2 control-label">宫格链接</label>
+        <label for="url" class="col-sm-2 control-label">类型设置</label>
+
+        <div class="col-sm-6">
+
+            <label class="radio" for="radios-grid">
+                <input type="radio" name="is_banner" id="radios-grid" value="0" <if condition="$grid.is_banner==0">checked</if>>
+                设置为<span style="color:#d14432">宫格</span>
+            </label>
+            <label class="radio" for="radios-banner">
+                <input type="radio" name="is_banner" id="radios-banner" value="1" <if condition="$grid.is_banner==1">checked</if>>
+                设置为<span style="color:#0000cc">头图</span>
+            </label>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="url" class="col-sm-2 control-label" id="lab-text">宫格链接</label>
 
         <div class="col-sm-6">
             <if condition="null !== $grid.page_id && $grid.page_id !=''">
@@ -60,13 +76,35 @@
 </form>
 <js href="__PUBLIC__/js/preview_img.js" />
 <script>
+    var isCheck=true;
     function checkUrl(){
+        if( !isCheck ){
+            return true;
+        }
         var url = document.getElementById('url').value;
-        if( /https?:\/\/([\w-]+\.)+[\w-]+(\/[\w\-\.\?\\%\\&\\=]*)?/.test(url) ){
+        if( url==='' || /https?:\/\/([\w-]+\.)+[\w-]+(\/[\w\-\.\?\\%\\&\\=]*)?/.test(url) ){
             return true;
         }else{
             alert('链接格式不正确');
             return false;
+        }
+    }
+
+    function changeBannerSelect(){
+
+    }
+
+    document.getElementById('radios-grid').onchange=function(e){
+        if(this.checked){
+            document.getElementById('lab-text').innerHTML = '宫格链接';
+            isCheck=true;
+        }
+    }
+
+    document.getElementById('radios-banner').onchange=function(e){
+        if(this.checked){
+            document.getElementById('lab-text').innerHTML = '头图标题';
+            isCheck=false;
         }
     }
 </script>
