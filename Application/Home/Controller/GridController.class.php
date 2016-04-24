@@ -124,7 +124,7 @@ class GridController extends Controller {
             $data = $this->getGridFromData();
 
             if( $_FILES['icon']['error'] ===0 && $_FILES['icon']['size'] > 0 ){
-                $this->upload(function($upload,$info){
+                $this->upload(function($this,$upload,$info){
                     if(!$info) {// 上传错误提示错误信息
                         $this->error($upload->getError());
                     }else{// 上传成功
