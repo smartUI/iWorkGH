@@ -91,7 +91,9 @@
                     if (!clientWidth) return;
                     docEl.style.fontSize = 20 * (clientWidth / 320) + 'px';
                 };
-
+        if(docEl.clientHeight>document.querySelector('body').clientHeight){
+            document.querySelector('.next-page').remove();
+        }
         if (!doc.addEventListener) return;
         win.addEventListener(resizeEvt, recalc, false);
         doc.addEventListener('DOMContentLoaded', recalc, false);
