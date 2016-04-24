@@ -46,7 +46,7 @@ class GridController extends Controller {
                 $this->assign('is_gongge',true);
             }elseif( $this->pre_page_model == 'liebiao' ){
                 $db = 'news';
-                $this->assign('is_news',true);
+                $this->assign('is_liebiao',true);
             }else{
                 $db = '';
                 $this->error('页面类型错误');

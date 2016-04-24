@@ -63,7 +63,7 @@
             <th class="text-left text-muted">宫格链接</th>
             <th class="text-left news-control">操作</th>
         </if>
-        <if condition="$is_news">
+        <if condition="$is_liebiao">
             <th class="text-left news-id">ID</th>
             <th class="text-left news-title">信息图片</th>
             <th class="text-left text-muted">信息标题</th>
@@ -82,7 +82,7 @@
             </td>
             <td class="text-left text-muted">
                 <a href="{$v.url}" target="_blank">
-                    <if condition="$is_news">{$v.title}</if>
+                    <if condition="$is_liebiao">{$v.title}</if>
                     <if condition="$is_gongge">{$v.url}</if>
                 </a>
             </td>
