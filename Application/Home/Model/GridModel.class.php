@@ -38,20 +38,20 @@ class GridModel extends model {
      */
 	public function gridDisplayStatus($id, $status) {
 		//更新是否展示
-		$result = $this->model->where('`is_banner`=0 and `id`=' . $id)->setField("status", $status);
+		$result = $this->model->where('`id`=' . $id)->setField("status", $status);
         //var_dump($this->model->getLastSql());
         return $result;
 
 	}
 
     public function gridGetOne($id){
-        $result = $this->model->where('`is_banner`=0 and `id`=' . $id)->find();
+        $result = $this->model->where('`id`=' . $id)->find();
         //var_dump($this->model->getLastSql());
         return $result;
     }
 
     public function gridDeleteOne($id){
-        $result = $this->model->where('`is_banner`=0 and `id`=' . $id)->delete();
+        $result = $this->model->where('`id`=' . $id)->delete();
         //var_dump($this->model->getLastSql());
         return $result;
     }
@@ -66,10 +66,17 @@ class GridModel extends model {
         return $result;
 	}
 
+    public function gridBrandList($page_id,$page=1,$status=1) {
+        $field = array('id', 'page_id', 'is_banner', 'icon', 'url', 'status', 'rank');
+        $result = $this->model->page($page, C('PER_PAGE'))->field($field)->where('`page_id`=\''. $page_id .'\' and `is_banner`=1 and `status`=' . $status)->order('id,rank')->select();
+        //var_dump($this->model->getLastSql());
+        return $result;
+    }
+
 	/**
      * 获取所有宫格总数
      */
-	public function gridCount($status) {
-		return $this->model->where('`is_banner`=0 and status=' . $status)->count();
+	public function gridCount($status,$is_banner=0) {
+		return $this->model->where('`is_banner`='. $is_banner .' and status=' . $status)->count();
 	}
 }

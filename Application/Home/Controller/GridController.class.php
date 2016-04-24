@@ -57,6 +57,9 @@ class GridController extends Controller {
         $list = $this->model->gridList($offset,$this->pageModel);
         $this->assign('list',$list);
 
+        $banner_list = $this->model->gridBrandList($this->pageModel);
+        $this->assign('banner_list',$banner_list);
+
         $this->buildPage($this->pageModel,$list);
         $this->display();
     }

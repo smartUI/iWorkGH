@@ -7,7 +7,7 @@
             <!--<img class="col-sm-12" src="{$Think.config.IMG_HOST}{$admin.portrait}" style="margin-bottom: 5px;">-->
             <div id="preview">
                 <if condition="($grid['icon'] neq '')">
-                    <img id="imghead" style="max-width: 100%; max-height: 150px;" border="0" src="/Uploads/{$grid.icon}">
+                    <img id="imghead" style="max-width: 100%; max-height: 150px;" border="0" src="{:U('/Uploads')}/{$grid.icon}">
                 </if>
                 <input type="hidden" name="pre_icon" value="{$grid.icon}">
             </div>
