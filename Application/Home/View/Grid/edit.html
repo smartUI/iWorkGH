@@ -70,14 +70,14 @@
         <div class="col-sm-6">
 
             <label class="radio" for="radios-grid">
-                <input type="radio" name="is_banner" label-text="<if condition="$is_gongge">宫格链接</if><if condition="$is_liebiao">信息链接</if>" id="radios-grid" value="0" <if condition="$grid.is_banner==0">checked</if>>
+                <input type="radio" name="is_banner" label-text="<if condition="$is_gongge">宫格链接</if><if condition="$is_liebiao">信息链接</if>" id="radios-grid" value="0" <if condition="$grid['is_banner']=='0'">checked</if>>
                 设置为<span style="color:#d14432">
                 <if condition="$is_gongge">宫格</if>
                 <if condition="$is_liebiao">信息流</if>
             </span>
             </label>
             <label class="radio" for="radios-banner">
-                <input type="radio" name="is_banner" id="radios-banner" label-text="头图标题" value="1" <if condition="$grid.is_banner==1">checked</if>>
+                <input type="radio" name="is_banner" id="radios-banner" label-text="头图标题" value="1" <if condition="$grid['is_banner']=='1'">checked</if>>
                 设置为<span style="color:#0000cc">头图</span>
             </label>
         </div>
@@ -90,7 +90,7 @@
         </label>
 
         <div class="col-sm-10">
-            <if condition="null !== $grid.page_id && $grid.page_id !=''">
+            <if condition="null !== $grid['page_id'] && $grid['page_id'] !=''">
                 <input name="page_id" type="hidden" class="form-control" id="page_id" required="true" value="{$grid.page_id}">
             <else/>
                 <input name="page_id" type="hidden" class="form-control" id="page_id" required="true" value="{$pageModel}">
@@ -152,7 +152,19 @@
             $('.liebiao-box').hide().html('');
             isCheck=false;
         }
-    })
+    });
 </script>
+<if condition="$grid['is_banner']=='1'">
+    <script>
+        $('#radios-grid').click();
+        $('#radios-banner').click();
+    </script>
+<elseif condition="$grid['is_banner']=='0'" />
+    <script>
+        $('#radios-banner').click();
+        $('#radios-grid').click();
+    </script>
+</if>
+
 
 
