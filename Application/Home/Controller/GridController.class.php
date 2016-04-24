@@ -89,7 +89,7 @@ class GridController extends Controller {
             'is_banner' => I('post.is_banner',0,'int'),
         );
 
-        if( $this->pre_page_model == 'news' ){
+        if( $this->pre_page_model == 'liebiao' ){
             $field['title'] = I('post.title','','htmlspecialchars');
         }
 

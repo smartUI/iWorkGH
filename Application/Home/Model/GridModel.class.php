@@ -12,6 +12,7 @@ class GridModel extends model {
 	 */
 	function __construct($db) {
 		parent::__construct();
+        $this->isNewsDB = $db == 'news';
 		$this->model = new Model($db);
 	}
 
@@ -62,6 +63,9 @@ class GridModel extends model {
      */
 	public function gridList($page,$page_id,$status=1) {
         $field = array('id', 'page_id', 'is_banner', 'icon', 'url', 'status', 'rank');
+        if($this->isNewsDB){
+            $field[]='title';
+        }
 		$result = $this->model->page($page, C('PER_PAGE'))->field($field)->where('`page_id`=\''. $page_id .'\' and `is_banner`=0 and `status`=' . $status)->order('id,rank')->select();
         //var_dump($this->model->getLastSql());
         return $result;
@@ -69,7 +73,7 @@ class GridModel extends model {
 
     public function gridBrand($page_id,$status=1) {
         $field = array('id', 'page_id', 'is_banner', 'icon', 'url', 'status', 'rank');
-        $result = $this->model->field($field)->where('`page_id`=\''. $page_id .'\' and `is_banner`=1 and `status`=' . $status)->find();
+        $result = $this->model->field($field)->where('`page_id`=\''. $page_id .'\' and `is_banner`=1 and `status`=' . $status)->limit(1)->find();
         //var_dump($this->model->getLastSql());
         return $result;
     }

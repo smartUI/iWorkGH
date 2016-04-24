@@ -52,14 +52,14 @@
         <div class="col-sm-6">
 
             <label class="radio" for="radios-grid">
-                <input type="radio" name="is_banner" id="radios-grid" value="0" <if condition="$grid.is_banner==0">checked</if>>
+                <input type="radio" name="is_banner" label-text="<if condition="$is_grid">宫格链接</if><if condition="$is_news">信息链接</if>" id="radios-grid" value="0" <if condition="$grid.is_banner==0">checked</if>>
                 设置为<span style="color:#d14432">
                 <if condition="$is_grid">宫格</if>
                 <if condition="$is_news">信息流</if>
             </span>
             </label>
             <label class="radio" for="radios-banner">
-                <input type="radio" name="is_banner" id="radios-banner" value="1" <if condition="$grid.is_banner==1">checked</if>>
+                <input type="radio" name="is_banner" id="radios-banner" label-text="头图标题" value="1" <if condition="$grid.is_banner==1">checked</if>>
                 设置为<span style="color:#0000cc">头图</span>
             </label>
         </div>
@@ -109,7 +109,8 @@
         if( !isCheck ){
             return true;
         }
-        var url = document.getElementById('url').value;
+        var url = $('#url').val();
+        url = $.trim(url);
         if( url==='' || /https?:\/\/([\w-]+\.)+[\w-]+(\/[\w\-\.\?\\%\\&\\=]*)?/.test(url) ){
             return true;
         }else{
@@ -118,23 +119,21 @@
         }
     }
 
-    function changeBannerSelect(){
-
-    }
-
-    document.getElementById('radios-grid').onchange=function(e){
-        if(this.checked){
-            document.getElementById('lab-text').innerHTML = '宫格链接';
+    $('#radios-grid').change(function(e){
+        if($(this).is(':checked')){
+            $('#lab-text').html( $(this).attr('label-text') );
+            $('#title_input').show().html( $('#title_input_tpl').html() );
             isCheck=true;
         }
-    }
+    })
 
-    document.getElementById('radios-banner').onchange=function(e){
-        if(this.checked){
-            document.getElementById('lab-text').innerHTML = '头图标题';
+    $('#radios-banner').change(function(e){
+        if($(this).is(':checked')){
+            $('#lab-text').html( $(this).attr('label-text') );
+            $('#title_input').hide().html('');
             isCheck=false;
         }
-    }
+    })
 </script>
 
 
