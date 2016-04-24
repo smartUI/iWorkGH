@@ -71,7 +71,8 @@ class GridController extends Controller {
             'icon' => I('post.icon','','htmlspecialchars'),
             'url' => I('post.url','','htmlspecialchars'),
             'rank' => I('post.rank',1,'int'),
-            'status' => I('post.status',1,'int')
+            'status' => I('post.status',1,'int'),
+            'is_banner' => I('post.is_banner',0,'int'),
         );
     }
 
@@ -155,9 +156,34 @@ class GridController extends Controller {
         }
     }
 
+    public function banner(){
+
+        $id = I('id',0,'int');
+        $type = I('get.type','','string');
+        if( $type == 'set' ){
+
+            $res = $this->model->gridDeleteOne($id);
+            if ($res) {
+                $this->success('删除成功！', U(cookie('grid_list_url')));
+            } else {
+                $this->error('删除失败！');
+            }
+
+        }elseif( $type=='cancel' ){
+            $res = $this->model->gridDeleteOne($id);
+            if ($res) {
+                $this->success('删除成功！', U(cookie('grid_list_url')));
+            } else {
+                $this->error('删除失败！');
+            }
+        }else{
+            $this->error('操作失败！');
+        }
+    }
+
 
     private function buildPage($page_id,$data,$mod='gongge'){
-        layout(false);
+        //layout(false);
         $this->assign('data',$data);
         $this->buildHtml($page_id.'.html','Html/',$mod.'_model');
     }
