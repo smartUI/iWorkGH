@@ -11,7 +11,7 @@ return array(
     //U方法访问路径，伪静态，去掉后面的html
     'URL_HTML_SUFFIX'    => '',
     //每页
-    'PER_PAGE'           => '1',//TODO........
+    'PER_PAGE'           => '10',
     'URL_CASE_INSENSITIVE' => true,
 
     'NOT_AUTH_MODULE'    => 'Index',           //无需认证的控制器

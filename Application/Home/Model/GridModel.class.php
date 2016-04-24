@@ -85,7 +85,7 @@ class GridModel extends model {
 	/**
      * 获取所有宫格总数
      */
-	public function gridCount($status,$is_banner=0) {
-		return $this->model->where('`is_banner`='. $is_banner .' and status=' . $status)->count();
+	public function gridCount($page_id,$status=1) {
+		return $this->model->where('`page_id`=\''. $page_id .'\' and `is_banner`=0 and `status`=' . $status)->count();
 	}
 }

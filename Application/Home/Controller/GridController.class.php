@@ -65,12 +65,20 @@ class GridController extends Controller {
      * PAGE－宫格列表
      */
     public function gridList(){
-        $offset = I('get.page',1,'int');
+        $offset = I('get.p',1,'int');
         $list = $this->model->gridList($offset,$this->pageModel);
         $this->assign('list',$list);
 
         $banner = $this->model->gridBrand($this->pageModel);
         $this->assign('banner',$banner);
+
+
+        $total = $this->model->gridCount($this->pageModel);
+        $page = new \Think\Page($total, C('PER_PAGE')); // 实例化分页类 传入总记录数和每页显示的记录数(20)
+        $show = $page->show();
+
+        $this->assign('page_show',$show);
+
         $this->display();
     }
 
