@@ -48,7 +48,7 @@
             <div class="liebiao-con liebiao-odd">
                 <div class="list-img list-hang" style="background: url(/Uploads/20160424/571c993dad421.png) center;background-size: cover;"></div>
                 <div class="list-title list-hang">
-                    测试一下                </div>
+                    测试一下1                </div>
                 <img class="list-btn list-hang" src="/Public/img/btn_r.png">
                 <div class="clear"></div>
             </div>
@@ -64,6 +64,19 @@
 </div>
 </body>
 <script>
+    (function(doc, win) {
+        var docEl = doc.documentElement,
+                resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+                recalc = function() {
+                    var clientWidth = docEl.clientWidth;
+                    if (!clientWidth) return;
+                    docEl.style.fontSize = 20 * (clientWidth / 320) + 'px';
+                };
+
+        if (!doc.addEventListener) return;
+        win.addEventListener(resizeEvt, recalc, false);
+        doc.addEventListener('DOMContentLoaded', recalc, false);
+    })(document, window);
     document.querySelector('.wrapper').addEventListener('click',function(e){
         var href = e.target.getAttribute('data-href');
         if( href ){
