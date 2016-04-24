@@ -1,14 +1,140 @@
 <!DOCTYPE html>
-<html>
+<html style="min-width: 1200px !important;">
 <head lang="en">
     <meta charset="UTF-8">
-    <title></title>
+    <title>广汇汽车微信公众账号后台管理</title>
+
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" type="text/css" href="/iWorkGH/Public/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/iWorkGH/Public/css/common.css">
+    <script src="/iWorkGH/Public/js/jquery.min.js"></script>
 </head>
 <body>
 
+<div class="header" style="text-align: end;">
+    <div class="row">
 
-<a href="/Home/....?name=wenhua" data-name="wenhua">wenhua</a>
-<a href="/home////...?name=huodong" data-name="huodong">huodong</a>
+        <div class="col-xs-5">
+            <h3 class="logo" style="text-align: left;
+            padding-left:19px; color:ghostwhite;">
+                广汇汽车微信公众账号后台管理系统<!--<sub class="badge">CMS</sub>-->
+            </h3>
+        </div>
+
+        <div class="col-xs-3 text-right login-msg col-xs-offset-3">
+            <ul class="nav navbar-right account" style="color: #efefeb;">
+                欢迎您，<a href="/home/index/index" style="color: #efefeb"><b>admin</b></a>
+                &nbsp;
+                <a href="/iWorkGH/home/index/logout" style="color:#efefeb">退出</a>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+<div class="container-fluid">
+
+    <div class="main row">
+        <div class="left-box col-xs-2">
+            <!--<dl class="menu"><dt><span class="glyphicon glyphicon-th-large"></span> <strong>信息管理</strong></dt><dd class="Index Admin"> <a href="/Home/Index/index">我的面板</a></dd><dd class=" Pages"> <a href="/Home/Pages/pagesList">页面管理</a></dd></dl>-->
+            <dl class="menu"><dt><span class="glyphicon glyphicon-th-large"></span> <strong>信息管理</strong></dt><dd class="Index Admin"> <a href="/iWorkGH/Home/Index/index">我的面板</a></dd><dd class="Grid Pages"> <a href="/iWorkGH/Home/Pages/pagesList">页面管理</a></dd></dl>
+
+        </div>
+
+        <div class="main-box col-xs-10">
+            <div class="container-fluid">
+
+                <!DOCTYPE html>
+<html id="gongge">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,scale=0">
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-touch-fullscreen" content="no"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <style>
+        html{font-size: 16px;font-family: microsoft yahei, "黑体", Arial, Simsun, "Arial Unicode MS", Mingliu, Helvetica;}
+        body{padding: 0;max-width: 640px;margin: 0 auto;}
+        .hidden{display: none;}
+        .list-head{width: 100%;height:210px;border-bottom: 3px solid #fff;}
+        #gongge .list{float: left;width:8rem;height:8rem;}
+        .clear{clear:both;width: 0; height: 0;}
+        @media screen and (min-width:640px){#gongge .list{width: 50%;height: 320px;} #gongge .list-head{height: 420px;} }
+    </style>
+</head>
+<body>
+
+<div class="wrapper">
+            <div class="clear"></div>
+</div>
+</body>
+<script>
+    (function(doc, win) {
+        var docEl = doc.documentElement,
+                resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+                recalc = function() {
+                    var clientWidth = docEl.clientWidth;
+                    if (!clientWidth) return;
+                    docEl.style.fontSize = 20 * (clientWidth / 320) + 'px';
+                };
+
+        if (!doc.addEventListener) return;
+        win.addEventListener(resizeEvt, recalc, false);
+        doc.addEventListener('DOMContentLoaded', recalc, false);
+    })(document, window);
+
+    document.querySelector('.wrapper').addEventListener('click',function(e){
+        var href = e.target.getAttribute('data-href');
+        if( href ){
+            location.href = href;
+            e.preventDefault();
+            e.stopPropagation();
+        }
+    });
+
+</script>
+</html>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<script src="/iWorkGH/Public/js/bootstrap.min.js"></script>
+<script src="/iWorkGH/Public/js/bootstrap.file-input.js"></script>
+<script src="/iWorkGH/Public/js/juzi.js"></script>
+
+
+<!--[if lte IE 9]>
+<script src="/iWorkGH/Public/js/respond.min.js"></script>
+<script src="/iWorkGH/Public/js/html5shiv.min.js"></script>
+<![endif]-->
+
+<script>
+
+    var controller = "Grid";
+    var sidebar = "";
+    $(function(){
+        //导航点击变色的结构
+        if(sidebar=='Public:sidebar'){
+            $('.Index').addClass('active');
+        }else{
+            //sidebar的样式
+            $('.'+controller).addClass('active');
+        }
+
+    })
+</script>
+
+
 
 </body>
 </html>
