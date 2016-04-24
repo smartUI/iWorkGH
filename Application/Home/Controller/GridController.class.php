@@ -40,7 +40,6 @@ class GridController extends Controller {
             $this->assign('pageModel' , $this->pageModel);
             $this->assign('pageModelInfo',$this->pageModelInfoConf[ $this->pageModel ]);
             $this->pre_page_model = $this->pageModelInfoConf[ $this->pageModel ]['pre_page_model'];
-
             if( $this->pre_page_model == 'gongge' ){
                 $db = 'grid';
                 $this->assign('is_gongge',true);
