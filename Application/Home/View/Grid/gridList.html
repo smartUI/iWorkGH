@@ -26,7 +26,8 @@
         <th class="text-left news-control">操作</th>
     </tr>
     </thead>
-    <tbody><!--<a href="/Home/News/newsHtml5/id/{$banner.id}">-->
+    <tbody>
+        <if condition="$banner">
         <tr>
             <td class="text-left">{$banner.id}</td>
             <td class="text-left">
@@ -48,6 +49,7 @@
                 </div>
             </td>
         </tr>
+        </if>
     </tbody>
 </table>
 
@@ -55,6 +57,7 @@
 <table class="table table-hover" border="0" style="border:1px solid #dddddd">
     <thead>
     <tr>
+        <if condition="$pre_page_model=='gongge'"></if>
         <th class="text-left news-id">ID</th>
         <th class="text-left news-title">宫格图片</th>
         <th class="text-left text-muted">宫格链接</th>

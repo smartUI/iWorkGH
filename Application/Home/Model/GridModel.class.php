@@ -8,10 +8,11 @@ class GridModel extends model {
 
 	/**
 	 * 构造函数
+     * @params $db  grid|news
 	 */
-	function __construct() {
+	function __construct($db) {
 		parent::__construct();
-		$this->model = new Model('grid');
+		$this->model = new Model($db);
 	}
 
     /**

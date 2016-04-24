@@ -10,6 +10,9 @@ use Org\Util\Rbac;
 class GridController extends Controller {
 
     private $model;
+    private $pre_page_model;
+    private $pageModel;
+    private $pageModelInfoConf;
     /**
      * 构造函数
      */
@@ -27,18 +30,28 @@ class GridController extends Controller {
             $this->redirect('/Home/Index/login');
         }
 
-        $this->model = new \Home\Model\GridModel();
 
         $this->pageModel = I('get.pageModel','','string');//页面模板文件名字
         $this->pageModelInfoConf = C('PAGE_TYPE');
 
 
         if( !isset( $this->pageModelInfoConf[ $this->pageModel ] ) ){
-            //$this->error('模板ID错误');
+            $this->error('模板ID错误');
         }else{
             $this->assign('pageModel' , $this->pageModel);
             $this->assign('pageModelInfo',$this->pageModelInfoConf[ $this->pageModel ]);
             $this->pre_page_model = $this->pageModelInfoConf[ $this->pageModel ]['pre_page_model'];
+
+            if( $this->pre_page_model == 'gongge' ){
+                $db = 'grid';
+                $this->assign('is_gongge',true);
+            }elseif( $this->pre_page_model == 'liebiao' ){
+                $db = 'news';
+            }else{
+                $db = '';
+                $this->error('页面类型错误');
+            }
+            $this->model = new \Home\Model\GridModel($db);
         }
     }
 
