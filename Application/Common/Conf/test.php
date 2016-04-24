@@ -66,6 +66,14 @@ return array(
             'title' => '企业研告',
             'type' => '信息流',
             'pre_page_model' => 'liebiao'
+        ),'channel' => array(
+            'title' => '宫格展示',
+            'type' => '宫格',
+            'pre_page_model' => 'gongge'
+        ),'list' => array(
+            'title' => '企业研告',
+            'type' => '信息流展示',
+            'pre_page_model' => 'liebiao'
         )
     )
 );
