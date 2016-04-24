@@ -65,8 +65,12 @@ class GridModel extends model {
         $field = array('id', 'page_id', 'is_banner', 'icon', 'url', 'status', 'rank');
         if($this->isNewsDB){
             $field[]='title';
+            $field[]='publish_time';
+            $order = '`publish_time` desc';
+        }else{
+            $order = '`id`,`rank` desc';
         }
-		$result = $this->model->page($page, C('PER_PAGE'))->field($field)->where('`page_id`=\''. $page_id .'\' and `is_banner`=0 and `status`=' . $status)->order('id,rank')->select();
+		$result = $this->model->page($page, C('PER_PAGE'))->field($field)->where('`page_id`=\''. $page_id .'\' and `is_banner`=0 and `status`=' . $status)->order($order)->select();
         //var_dump($this->model->getLastSql());
         return $result;
 	}

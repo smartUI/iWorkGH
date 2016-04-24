@@ -90,6 +90,7 @@ class GridController extends Controller {
 
         if( $this->pre_page_model == 'liebiao' ){
             $field['title'] = I('post.title','','htmlspecialchars');
+            $field['publish_time'] = I('post.publish_time',date('Y-m-d H:i:s'),'string');
         }
 
         return $field;

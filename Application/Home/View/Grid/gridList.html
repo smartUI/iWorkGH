@@ -67,6 +67,7 @@
             <th class="text-left news-id">ID</th>
             <th class="text-left news-title">信息图片</th>
             <th class="text-left text-muted">信息标题</th>
+            <th class="text-left news-pub">发布时间</th>
             <th class="text-left news-control">操作</th>
         </if>
     </tr>
@@ -85,6 +86,9 @@
                     <if condition="$is_liebiao">{$v.title}</if>
                     <if condition="$is_gongge">{$v.url}</if>
                 </a>
+            </td>
+            <td class="text-left news-pub">
+                {$v.publish_time}
             </td>
             <td class="text-left">
                 <div class="btn-group" role="group">
