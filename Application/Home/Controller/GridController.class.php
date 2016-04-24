@@ -34,7 +34,6 @@ class GridController extends Controller {
         $this->pageModel = I('get.pageModel','','string');//页面模板文件名字
         $this->pageModelInfoConf = C('PAGE_TYPE');
 
-
         if( !isset( $this->pageModelInfoConf[ $this->pageModel ] ) ){
             $this->error('模板ID错误');
         }else{
@@ -47,6 +46,7 @@ class GridController extends Controller {
                 $this->assign('is_gongge',true);
             }elseif( $this->pre_page_model == 'liebiao' ){
                 $db = 'news';
+                $this->assign('is_news',true);
             }else{
                 $db = '';
                 $this->error('页面类型错误');
@@ -80,7 +80,7 @@ class GridController extends Controller {
      * @return array
      */
     private function getGridFromData(){
-        return array(
+        $field = array(
             'page_id' => I('post.page_id','','htmlspecialchars'),
             'icon' => I('post.icon','','htmlspecialchars'),
             'url' => I('post.url','','htmlspecialchars'),
@@ -88,6 +88,12 @@ class GridController extends Controller {
             'status' => I('post.status',1,'int'),
             'is_banner' => I('post.is_banner',0,'int'),
         );
+
+        if( $this->pre_page_model == 'news' ){
+            $field['title'] = I('post.title','','htmlspecialchars');
+        }
+
+        return $field;
     }
 
     /**

@@ -1,10 +1,15 @@
 <style>.form-group .radio, .form-group .checkbox{margin-left:20px;display:inline-block;margin-right:30px;cursor:pointer;}</style>
-<h4> 宫格信息管理 </h4>
-<form class="form-horizontal col-sm-7" onsubmit="return checkUrl()" action="/home/Grid/subEdit/id/{$grid.id}/pageModel/{$pageModel}" method="post" enctype="multipart/form-data">
+<h4>
+    <if condition="$is_grid">宫格信息管理</if>
+    <if condition="$is_news">信息流管理</if>
+</h4>
+<form class="form-horizontal col-sm-7" onsubmit="return checkUrl()" action="{:U('Home/Grid/subEdit')}?id={$grid.id}&pageModel={$pageModel}" method="post" enctype="multipart/form-data">
     <div class="form-group">
-        <label for="icon" class="col-sm-2 control-label">宫格图片</label>
+        <label for="icon" class="col-sm-2 control-label">
+            <if condition="$is_grid">宫格图片</if>
+            <if condition="$is_news">信息流图</if>
+        </label>
         <div class="col-sm-5">
-            <!--<img class="col-sm-12" src="{$Think.config.IMG_HOST}{$admin.portrait}" style="margin-bottom: 5px;">-->
             <div id="preview">
                 <if condition="($grid['icon'] neq '')">
                     <img id="imghead" style="max-width: 100%; max-height: 150px;" border="0" src="{:U('/Uploads')}/{$grid.icon}">
@@ -24,6 +29,23 @@
             <!--<input name="page_id" type="text" class="form-control" id="page_id" required="true" value="{$grid.page_id}">-->
         <!--</div>-->
     <!--</div>-->
+
+    <if condition="$is_news">
+        <script type="text/html" id="title_input_tpl">
+            <label for="title" class="col-sm-2 control-label">信息标题</label>
+            <div class="col-sm-6">
+                <input name="title" type="text" class="form-control" id="title" required="true" value="{$grid.title}">
+            </div>
+        </script>
+
+        <div class="form-group" id="title_input">
+            <label for="title" class="col-sm-2 control-label">信息标题</label>
+            <div class="col-sm-6">
+                <input name="title" type="text" class="form-control" id="title" required="true" value="{$grid.title}">
+            </div>
+        </div>
+    </if>
+
     <div class="form-group">
         <label for="url" class="col-sm-2 control-label">类型设置</label>
 
@@ -31,7 +53,10 @@
 
             <label class="radio" for="radios-grid">
                 <input type="radio" name="is_banner" id="radios-grid" value="0" <if condition="$grid.is_banner==0">checked</if>>
-                设置为<span style="color:#d14432">宫格</span>
+                设置为<span style="color:#d14432">
+                <if condition="$is_grid">宫格</if>
+                <if condition="$is_news">信息流</if>
+            </span>
             </label>
             <label class="radio" for="radios-banner">
                 <input type="radio" name="is_banner" id="radios-banner" value="1" <if condition="$grid.is_banner==1">checked</if>>
@@ -40,7 +65,10 @@
         </div>
     </div>
     <div class="form-group">
-        <label for="url" class="col-sm-2 control-label" id="lab-text">宫格链接</label>
+        <label for="url" class="col-sm-2 control-label" id="lab-text">
+            <if condition="$is_grid">宫格链接</if>
+            <if condition="$is_news">信息链接</if>
+        </label>
 
         <div class="col-sm-10">
             <if condition="null !== $grid.page_id && $grid.page_id !=''">
@@ -75,7 +103,7 @@
     </div>
 </form>
 
-<script>
+<script type="text/javascript">
     var isCheck=true;
     function checkUrl(){
         if( !isCheck ){
