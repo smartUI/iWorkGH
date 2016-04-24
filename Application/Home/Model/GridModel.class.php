@@ -66,9 +66,9 @@ class GridModel extends model {
         return $result;
 	}
 
-    public function gridBrandList($page_id,$page=1,$status=1) {
+    public function gridBrand($page_id,$status=1) {
         $field = array('id', 'page_id', 'is_banner', 'icon', 'url', 'status', 'rank');
-        $result = $this->model->page($page, C('PER_PAGE'))->field($field)->where('`page_id`=\''. $page_id .'\' and `is_banner`=1 and `status`=' . $status)->order('id,rank')->select();
+        $result = $this->model->field($field)->where('`page_id`=\''. $page_id .'\' and `is_banner`=1 and `status`=' . $status)->find();
         //var_dump($this->model->getLastSql());
         return $result;
     }

@@ -24,16 +24,15 @@
         <th class="text-left news-control">操作</th>
     </tr>
     </thead>
-    <tbody><!--<a href="/Home/News/newsHtml5/id/{$v.id}">-->
-    <foreach name="banner_list" item="v">
+    <tbody><!--<a href="/Home/News/newsHtml5/id/{$banner.id}">-->
         <tr>
-            <td class="text-left">{$v.id}</td>
+            <td class="text-left">{$banner.id}</td>
             <td class="text-left">
-                <a target="_blank" href="{:U('/Uploads')}/{$v.icon}">
-                    <img width="80" height="80" src="{:U('/Uploads')}/{$v.icon}">
+                <a target="_blank" href="{:U('/Uploads')}/{$banner.icon}">
+                    <img width="80" height="80" src="{:U('/Uploads')}/{$banner.icon}">
                 </a>
             </td>
-            <td class="text-left text-muted">{$v.url}</td>
+            <td class="text-left text-muted">{$banner.url}</td>
             <td class="text-left">
                 <div class="btn-group" role="group">
                     <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
@@ -41,13 +40,12 @@
                         <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="{:U('Home/Grid/delete')}/id/{$v.id}" onclick="return confirm('确定删除吗?')">删除</a></li>
-                        <li><a href="{:U('Home/Grid/edit')}/id/{$v.id}">修改</a></li>
+                        <li><a href="{:U('Home/Grid/delete')}/pageModel/{$pageModel}/id/{$banner.id}" onclick="return confirm('确定删除吗?')">删除</a></li>
+                        <li><a href="{:U('Home/Grid/edit')}/pageModel/{$pageModel}/id/{$banner.id}">修改</a></li>
                     </ul>
                 </div>
             </td>
         </tr>
-    </foreach>
     </tbody>
 </table>
 
@@ -78,8 +76,8 @@
                         <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="{:U('Home/Grid/delete')}/id/{$v.id}" onclick="return confirm('确定删除吗?')">删除</a></li>
-                        <li><a href="{:U('Home/Grid/edit')}/id/{$v.id}">修改</a></li>
+                        <li><a href="{:U('Home/Grid/delete')}/pageModel/{$pageModel}/id/{$v.id}" onclick="return confirm('确定删除吗?')">删除</a></li>
+                        <li><a href="{:U('Home/Grid/edit')}/pageModel/{$pageModel}/id/{$v.id}">修改</a></li>
                     </ul>
                 </div>
             </td>

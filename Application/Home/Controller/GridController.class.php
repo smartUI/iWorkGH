@@ -30,16 +30,16 @@ class GridController extends Controller {
         $this->model = new \Home\Model\GridModel();
 
         $this->pageModel = I('get.pageModel','','string');//页面模板文件名字
-        $this->pageModelInfo = C('PAGE_TYPE');
+        $this->pageModelInfoConf = C('PAGE_TYPE');
 
 
-        if( !isset( $this->pageModelInfo[ $this->pageModel ] ) ){
+        if( !isset( $this->pageModelInfoConf[ $this->pageModel ] ) ){
             //$this->error('模板ID错误');
         }else{
             $this->assign('pageModel' , $this->pageModel);
-            $this->assign('pageModelInfo',$this->pageModelInfo[ $this->pageModel ]);
+            $this->assign('pageModelInfo',$this->pageModelInfoConf[ $this->pageModel ]);
+            $this->pre_page_model = $this->pageModelInfoConf[ $this->pageModel ]['pre_page_model'];
         }
-
     }
 
     /**
@@ -57,10 +57,8 @@ class GridController extends Controller {
         $list = $this->model->gridList($offset,$this->pageModel);
         $this->assign('list',$list);
 
-        $banner_list = $this->model->gridBrandList($this->pageModel);
-        $this->assign('banner_list',$banner_list);
-
-        $this->buildPage($this->pageModel,$list);
+        $banner = $this->model->gridBrand($this->pageModel);
+        $this->assign('banner',$banner);
         $this->display();
     }
 
@@ -95,6 +93,7 @@ class GridController extends Controller {
 
                     $update = $this->model->gridAdd($data);
                     if ($update >= 0) {
+                        $this->buildPage();
                         $this->success('添加成功！', U(cookie('grid_list_url')));
                     } else {
                         $this->error('添加失败！');
@@ -113,6 +112,7 @@ class GridController extends Controller {
                         $data['icon'] = $info['icon']['savepath'] . $info['icon']['savename'];
                         $update = $this->model->gridSave( I('get.id', 0, 'int'), $data );
                         if ($update) {
+                            $this->buildPage();
                             $this->success('修改成功！', U(cookie('grid_list_url')));
                         } else {
                             $this->error('修改失败！');
@@ -124,6 +124,7 @@ class GridController extends Controller {
                 $data['icon'] = I('post.pre_icon','','htmlspecialchars');
                 $res = $this->model->gridSave($id,$data);
                 if ($res) {
+                    $this->buildPage();
                     $this->success('修改成功！', U(cookie('grid_list_url')));
                 } else {
                     $this->error('修改失败！');
@@ -153,41 +154,29 @@ class GridController extends Controller {
         $id = I('id', '', 'int');
         $res = $this->model->gridDeleteOne($id);
         if ($res) {
+            $this->buildPage();
             $this->success('删除成功！', U(cookie('grid_list_url')));
         } else {
             $this->error('删除失败！');
         }
     }
 
-    public function banner(){
-
-        $id = I('id',0,'int');
-        $type = I('get.type','','string');
-        if( $type == 'set' ){
-
-            $res = $this->model->gridDeleteOne($id);
-            if ($res) {
-                $this->success('删除成功！', U(cookie('grid_list_url')));
-            } else {
-                $this->error('删除失败！');
-            }
-
-        }elseif( $type=='cancel' ){
-            $res = $this->model->gridDeleteOne($id);
-            if ($res) {
-                $this->success('删除成功！', U(cookie('grid_list_url')));
-            } else {
-                $this->error('删除失败！');
-            }
-        }else{
-            $this->error('操作失败！');
+    /**
+     * @param string $mod  gongge\liebiao
+     */
+    private function buildPage($mod=null){
+        layout(false);
+        if( empty($mod) ){
+            $mod = $this->pre_page_model;
         }
-    }
-
-
-    private function buildPage($page_id,$data,$mod='gongge'){
-        //layout(false);
-        $this->assign('data',$data);
+        if( empty($mod) ){
+            $this->error('生成或更新静态页面出错');
+        }
+        $page_id = $this->pageModel;
+        $list = $this->model->gridList(1,$this->pageModel);
+        $banner = $this->model->gridBrand($this->pageModel);
+        $this->assign('banner',$banner);
+        $this->assign('data',$list);
         $this->buildHtml($page_id.'.html','Html/',$mod.'_model');
     }
 
