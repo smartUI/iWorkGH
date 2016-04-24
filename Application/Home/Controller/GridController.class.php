@@ -74,6 +74,12 @@ class GridController extends Controller {
         $this->display();
     }
 
+    public function getPageList(){
+        $offset = I('get.page',1,'int');
+        $list = $this->model->gridList($offset,$this->pageModel);
+        $this->ajaxReturn($list,'JSON');
+    }
+
     /**
      * 返回表格数据结构
      * @return array
