@@ -20,11 +20,14 @@
         #liebiao .list{border-top: 3px solid #fff;}
         #liebiao .list:nth-child(1){border: none;}
         .liebiao-con{padding: 0 10px;position: relative;}
-        .liebiao-odd{background:#f9c54d;}
+        .liebiao-odd{}
+        .wrapper .list-con:nth-child(odd) .liebiao-con{
+            background:#f9c54d;
+        }
         .list-img{width: 3rem;height: 3rem;border-radius: 5px;position: absolute;top: 50%;-webkit-transform: translate(0,-50%)}
         .list-title{width: 11rem;min-height:2.4rem;font-size: .7rem; margin: .5rem 0 .5rem 3.5rem;padding:.3rem 1rem .3rem 0;background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABsAAAAwCAMAAADXYfGSAAAAn1BMVEVMaXH///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////8Qg5o/AAAANHRSTlMAPJibBgI155o56Onm/AdNeqVC9pKd8D24D151vcceleXjwjH0+L++sfuy29r6O5k0AZeWVgNvpwAAALpJREFUeNrt1McOwjAQRVEHO/akkELvvfcy//9tWCLLebBHZHuVoziSn1oW2zI3SnyKxWr+iEKxbdbMjqz4Zjlj5pgCqeVT56OrSWwWUMyIzSw5yIZRDbOqYrXEmjeb6D/7lVWYbXf7Ipv62OkNJhLbOp2Z66OhxDZ2TfZxLLYDat487mXTWA2/JdAJOAM4ewXCf1aB2hoMhgCMCYP0AyC603gLwIakHkTbc72gzUrpZtDWPaO7lD5t5Aszgyg/cU55cwAAAABJRU5ErkJggg==") no-repeat 11.1rem center; background-size: 0.7rem auto;color: #fff;font-weight: 100;}
         @media screen and (min-width:640px){.list-img{width: 8rem;height: 8rem;}.list-title{width: 26rem;height: 5rem;margin-top: 2.5rem;}.list-btn{margin-top:3rem;width: 1rem;margin-left: 0px;}.list-head{height: 420px;} }
-        .next-page{text-align: center;color: #fff;padding: 5px;}
+        .next-page{text-align: center;color: #fff;padding: 5px;font-size:15px;}
         .list-head{position:relative;}
         .list-head-title{position: absolute; bottom: 0; width: 100%; background-color: rgba(0,0,0,0.2); color: #fff; font-size:20px; padding: 10px; box-sizing: border-box;}
     </style>
@@ -41,11 +44,13 @@
     </if>
 
     <foreach name="data" item="vo">
-        <div class="list" data-href="{$vo.url}">
-            <div class="liebiao-con liebiao-odd">
-                <div class="list-img list-hang" style="background: url({:U('/Uploads')}/{$vo.icon}) center;background-size: cover;"></div>
-                <div class="list-title list-hang">
-                    {$vo.title}
+        <div class="list-con">
+            <div class="list" data-href="{$vo.url}">
+                <div class="liebiao-con liebiao-odd">
+                    <div class="list-img list-hang" style="background: url({:U('/Uploads')}/{$vo.icon}) center;background-size: cover;"></div>
+                    <div class="list-title list-hang">
+                        {$vo.title}
+                    </div>
                 </div>
             </div>
         </div>
@@ -104,7 +109,12 @@
 
 
     var page=2;
+    var isLock=false;
     function loadPage(){
+        if( !isLock ){
+            return false;
+        }
+        isLock = true;
         $$.get("{:U('Home/Grid/getPageList')}?pageModel={$page_id}&page="+page,null,function(data){
             data = JSON.parse(data);
             if( data ){
@@ -122,14 +132,17 @@
                         </div>';
                 }
                 var el = document.createElement('div');
+                el.className="list-con";
                 el.innerHTML=html;
                 document.querySelector('#liebiao').appendChild(el);
             }else{
                 document.querySelector('.next-page').remove();
             }
-
+            setTimeout(function(){
+                isLock = false;
+            },2000)
         },function(data){
-
+            isLock = false;
         });
     }
 </script>
