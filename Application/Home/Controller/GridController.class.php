@@ -113,7 +113,7 @@ class GridController extends Controller {
                     $update = $this->model->gridAdd($data);
                     if ($update >= 0) {
                         $this->buildPage();
-                        $this->success('添加成功！', U(cookie('grid_list_url')));
+                        $this->success('添加成功！', cookie('grid_list_url'));
                     } else {
                         $this->error('添加失败！');
                     }
@@ -132,7 +132,7 @@ class GridController extends Controller {
                         $update = $this->model->gridSave( I('get.id', 0, 'int'), $data );
                         if ($update) {
                             $this->buildPage();
-                            $this->success('修改成功！', U(cookie('grid_list_url')));
+                            $this->success('修改成功！', cookie('grid_list_url'));
                         } else {
                             $this->error('修改失败！');
                         }
@@ -144,7 +144,7 @@ class GridController extends Controller {
                 $res = $this->model->gridSave($id,$data);
                 if ($res) {
                     $this->buildPage();
-                    $this->success('修改成功！', U(cookie('grid_list_url')));
+                    $this->success('修改成功！', cookie('grid_list_url'));
                 } else {
                     $this->error('修改失败！');
                 }
@@ -174,7 +174,7 @@ class GridController extends Controller {
         $res = $this->model->gridDeleteOne($id);
         if ($res) {
             $this->buildPage();
-            $this->success('删除成功！', U(cookie('grid_list_url')));
+            $this->success('删除成功！', cookie('grid_list_url'));
         } else {
             $this->error('删除失败！');
         }
