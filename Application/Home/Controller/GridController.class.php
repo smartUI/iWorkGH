@@ -102,7 +102,7 @@ class GridController extends Controller {
     public function subEdit(){
         $id = I('get.id', 0, 'int');
         if (IS_POST && !$id) {//执行添加操作
-            $this->upload(function($upload,$info){
+            $this->upload(function($this,$upload,$info){
                 if(!$info) {// 上传错误提示错误信息
                     $this->error($upload->getError());
                 }else{// 上传成功
@@ -218,7 +218,7 @@ class GridController extends Controller {
         $upload = new \Think\Upload($config);// 实例化上传类
         // 上传文件
         $info = $upload->upload();
-        $callback($upload,$info);
+        $callback($this,$upload,$info);
         return $info;
     }
 }
