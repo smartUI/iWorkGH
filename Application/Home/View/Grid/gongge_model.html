@@ -18,6 +18,7 @@
         #gongge .list{float: left;width:8rem;height:8rem;}
         .clear{clear:both;width: 0; height: 0;}
         @media screen and (min-width:640px){#gongge .list{width: 50%;height: 320px;} #gongge .list-head{height: 420px;} }
+        .img_scale{-webkit-transform: scale(1.2); -webkit-transition: all .1s linear;}
     </style>
 </head>
 <body>
@@ -54,9 +55,12 @@
     document.querySelector('.wrapper').addEventListener('click',function(e){
         var href = e.target.getAttribute('data-href');
         if( href ){
-            location.href = href;
-            e.preventDefault();
-            e.stopPropagation();
+            e.target.className = 'list img_scale';
+            setTimeout(function(){
+                location.href = href;
+                e.preventDefault();
+                e.stopPropagation();
+            },200)
         }
     });
 
