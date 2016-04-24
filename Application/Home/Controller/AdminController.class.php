@@ -35,6 +35,7 @@ class AdminController extends CommonController {
 
 			//修改管理员
 			if ($update >= 0) {
+                session('nickname' ,$post_data['nickname']);
 				$this->success('管理员修改成功！', U('Home/Index/index'));
 			} else {
 				$this->error('修改失败！');
@@ -44,7 +45,7 @@ class AdminController extends CommonController {
 			//查询原始数据
 			$id = I('admin_id', 0, 'int');
 			if ($id) {
-                $where = "`id`='1'";
+                $where = "`id`=".$id;
                 $result = M('Admin')->where($where)->find();
 				$this->assign('admin', $result);
 			}
