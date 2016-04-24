@@ -47,9 +47,9 @@ class CommonController extends Controller {
         }
 
         //菜单显示
-        $m = menu();
+        /*$m = menu();
         $this->assign('menu',$m['menu']);
-        $this->assign('slider',$m['slider']);
+        $this->assign('slider',$m['slider']);*/
     }
 
     //验证码显示
@@ -104,13 +104,5 @@ class CommonController extends Controller {
             $this->success($files, '', true);
         }
     }
-    /*private function qiniuupload($key, $realpath){
-        $qiniu = new \Vendor\Qiniu();
-        //$realpath = realpath(__ROOT__) .$key;
-        $isUpload = $qiniu->upload($key, $realpath);
-        if (!$isUpload) {
-            return false;
-        }
-        return true;
-    }*/
+
 }

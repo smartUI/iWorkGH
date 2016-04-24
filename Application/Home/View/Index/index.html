@@ -2,15 +2,11 @@
     <div class="panel-body">
         <div class="row"><h4>欢迎来到定制后台！</h4></div>
         <div class="row">
-            <div id="preview">
-                <notempty name="admin.portrait">
-                <img id="imghead" style="max-width: 10%; max-height: 200px;" border=1 src="{$Think.config.IMG_HOST}{$admin.portrait}">
-            </notempty>
-            </div><br>
+            <br>
             登录管理员：<b>{:session('nickname')}</b>
             <br><br>
+            <a href="{:U('Home/Admin/adminEdit')}?admin_id={:session('admin_id')}" class="btn btn-primary">修改账号</a>
 
-            <a href="/Home/Admin/adminEdit?admin_id={:session('admin_id')}" class="btn btn-primary">修改账号</a>
         </div>
     </div>
 </div>
