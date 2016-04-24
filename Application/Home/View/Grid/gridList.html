@@ -14,7 +14,7 @@
 
 <div class="row-fluid">
     <h4 style="display:inline;margin-right:20px;">{$pageModelInfo.title} - {$pageModelInfo.type}</h4>
-    <strong class="glyphicon glyphicon-wrench" style="line-height: 34px;display: inline-block;height: 34px;font-weight:bolder;">操作：</strong><a href="{:U('Home/Grid/edit')}/pageModel/{$pageModel}" class="btn btn-primary">添加</a>
+    <strong class="glyphicon glyphicon-wrench" style="line-height: 34px;display: inline-block;height: 34px;font-weight:bolder;">操作：</strong><a href="{:U('Home/Grid/edit')}?pageModel={$pageModel}" class="btn btn-primary">添加</a>
 </div><p></p>
 
 <table class="table table-hover" border="0" style="border:1px solid #dddddd">
@@ -43,8 +43,8 @@
                         <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="{:U('Home/Grid/delete')}/pageModel/{$pageModel}/id/{$banner.id}" onclick="return confirm('确定删除吗?')">删除</a></li>
-                        <li><a href="{:U('Home/Grid/edit')}/pageModel/{$pageModel}/id/{$banner.id}">修改</a></li>
+                        <li><a href="{:U('Home/Grid/delete')}?pageModel={$pageModel}&id={$banner.id}" onclick="return confirm('确定删除吗?')">删除</a></li>
+                        <li><a href="{:U('Home/Grid/edit')}?pageModel={$pageModel}&id={$banner.id}">修改</a></li>
                     </ul>
                 </div>
             </td>
@@ -57,14 +57,21 @@
 <table class="table table-hover" border="0" style="border:1px solid #dddddd">
     <thead>
     <tr>
-        <if condition="$pre_page_model=='gongge'"></if>
-        <th class="text-left news-id">ID</th>
-        <th class="text-left news-title">宫格图片</th>
-        <th class="text-left text-muted">宫格链接</th>
-        <th class="text-left news-control">操作</th>
+        <if condition="$is_gongge">
+            <th class="text-left news-id">ID</th>
+            <th class="text-left news-title">宫格图片</th>
+            <th class="text-left text-muted">宫格链接</th>
+            <th class="text-left news-control">操作</th>
+        </if>
+        <if condition="$is_news">
+            <th class="text-left news-id">ID</th>
+            <th class="text-left news-title">信息图片</th>
+            <th class="text-left text-muted">信息标题</th>
+            <th class="text-left news-control">操作</th>
+        </if>
     </tr>
     </thead>
-    <tbody><!--<a href="/Home/News/newsHtml5/id/{$v.id}">-->
+    <tbody>
     <foreach name="list" item="v">
         <tr>
             <td class="text-left">{$v.id}</td>
@@ -73,7 +80,12 @@
                     <img width="80" height="80" src="{:U('/Uploads')}/{$v.icon}">
                 </a>
             </td>
-            <td class="text-left text-muted"><a href="{$v.url}" target="_blank">{$v.url}</a></td>
+            <td class="text-left text-muted">
+                <a href="{$v.url}" target="_blank">
+                    <if condition="$is_news">{$v.title}</if>
+                    <if condition="$is_gongge">{$v.url}</if>
+                </a>
+            </td>
             <td class="text-left">
                 <div class="btn-group" role="group">
                     <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
@@ -81,8 +93,8 @@
                         <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="{:U('Home/Grid/delete')}/pageModel/{$pageModel}/id/{$v.id}" onclick="return confirm('确定删除吗?')">删除</a></li>
-                        <li><a href="{:U('Home/Grid/edit')}/pageModel/{$pageModel}/id/{$v.id}">修改</a></li>
+                        <li><a href="{:U('Home/Grid/delete')}?pageModel={$pageModel}&id={$v.id}" onclick="return confirm('确定删除吗?')">删除</a></li>
+                        <li><a href="{:U('Home/Grid/edit')}?pageModel={$pageModel}&id={$v.id}">修改</a></li>
                     </ul>
                 </div>
             </td>
@@ -114,61 +126,5 @@
 
 <script src="__PUBLIC__/js/jquery.autocomplete.min.js"></script>
 <script>
-    $(function(){
-        $('.order').click(function() {
-            $("#order").val($(this).attr('alt'));
-            $("#form1").submit();
-        });
-        var select_cat = $('.dropdown-menu').find('.bg-primary').find('a').text();
-        $('input[name=search]').attr('placeholder',select_cat);
-    })
-
-    $(function() {
-        //初始化的时候拿到表单数据
-        var _select = $('#select-author').find("option:selected");
-        if(_select.val()!=''){
-            $(".select-input").val(_select.text());
-            $("#select-result").val(_select.val());
-        }
-        //下拉框变化的时候要显示的数据
-        $('#select-author').on('change', function(e) {
-            var _select = $('#select-author').find("option:selected");
-            $(".select-input").val(_select.text());
-            $("#select-result").val(_select.val());
-        });
-        //插件选择数据
-        var options = $('#select-author').find("option");
-        $('.select-input').AutoComplete({
-            data: ['全部',{$selectDom}],
-            afterSelectedHandler: function(data){
-                $("#select-result").val='';
-                options.each(function(i,v){
-                    if($(v).text()==data.value){
-                        $("#select-result").val($(v).val());
-                        return false;
-                    }
-                })
-            }
-        });
-        //查看kol原文
-        $('.kol').on('click',function(){
-            $('#view-title').text('原文内容');
-            $('#view-body').html('暂无');
-            var _this = $(this);
-            $.ajax({
-                url:_this.attr('data-herf'),
-                dateType:'html',
-                success:function(data){
-                    $('#view-title').html('原文内容');
-                    $('#view-body').html(data);
-                    $('#myModal').modal('show');
-                },
-                error:function(){
-                    alert('看不到？哎，人品啊 ←_← ！');
-                }
-            })
-        })
-
-    });
 
 </script>
