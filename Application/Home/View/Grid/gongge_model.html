@@ -22,17 +22,13 @@
 <body>
 
 <div class="wrapper">
-
-    {$imgHead}
-
-    <div class="list-head" style="background: url(http://images11.app.happyjuzi.com/content/201604/21/5718df09d1353.jpg!ac1) center;background-size: cover;"></div>
-
+    <if condition="$banner neq '' ">
+        <div class="list-head" style="background: url({:U('/Uploads')}/{$banner}) center;background-size: cover;"></div>
+    </if>
     <foreach name="data" item="vo">
-        <div class="list" data-href="{$vo.url}" style="background: url('/Uploads/{$vo.icon}') center;background-size: cover;"></div>
+        <div class="list" data-href="{$vo.url}" style="background: url({:U('/Uploads')}/{$vo.icon}) center;background-size: cover;"></div>
     </foreach>
-
     <div class="clear"></div>
-
 </div>
 </body>
 <script>
