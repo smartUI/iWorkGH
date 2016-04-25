@@ -98,6 +98,11 @@
                     var clientWidth = docEl.clientWidth;
                     if (!clientWidth) return;
                     docEl.style.fontSize = 20 * (clientWidth / 320) + 'px';
+                    var headTitle = document.querySelector('.list-head-title');
+                    if(headTitle.clientHeight<72){
+                        headTitle.innerHTML = "<center>"+headTitle.innerText+"</center>";
+                    }
+
                 };
         if(docEl.clientHeight>document.querySelector('body').clientHeight){
             document.querySelector('.next-page').remove();
