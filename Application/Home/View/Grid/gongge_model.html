@@ -13,19 +13,21 @@
         html{font-size: 16px;font-family: microsoft yahei, "黑体", Arial, Simsun, "Arial Unicode MS", Mingliu, Helvetica;}
         body{padding: 0;max-width: 640px;margin: 0 auto;}
         .hidden{display: none;}
-        .list-head{width: 100%;height:210px;position:relative;}
-        .list-head-title{position: absolute; bottom: 0; width: 100%; background-color: rgba(0,0,0,0.2); color: #fff; font-size:20px; padding: 10px; box-sizing: border-box;}
+        .list-head{width: 100%;position:relative;margin-bottom: -7px;}
+        .list-head img{width: 100%;}
+        .list-head-title{position: absolute; bottom: 7px; width: 100%; background-color: rgba(0,0,0,0.2); color: #fff; font-size:20px; padding: 10px; box-sizing: border-box;}
         #gongge .list{float: left;width:8rem;height:8rem;}
         .clear{clear:both;width: 0; height: 0;}
-        @media screen and (min-width:640px){#gongge .list{width: 50%;height: 320px;} #gongge .list-head{height: 420px;} }
-        .img_scale{transform: scale(1.2);-webkit-transform: scale(1.2); -webkit-transition: all .1s linear;}
+        @media screen and (min-width:640px){#gongge .list{width: 50%;height: 320px;} }
+        .img_scale{transform: scale(.9);-webkit-transform: scale(.9); -webkit-transition: all .1s linear;}
     </style>
 </head>
 <body>
 
 <div class="wrapper">
     <if condition="$banner neq '' ">
-        <div class="list-head" style="background: url({:U('/Uploads')}/{$banner.icon}) center;background-size: cover;">
+        <div class="list-head">
+            <img src="{:U('/Uploads')}/{$banner.icon}">
             <if condition="$banner['url'] neq '' ">
                 <div class="list-head-title">{$banner.url}</div>
             </if>
