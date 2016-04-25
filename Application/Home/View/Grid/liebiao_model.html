@@ -63,7 +63,9 @@
     </foreach>
 
 </div>
+<if condition="count($data) eq 10">
 <div class="next-page" onclick="loadPage()">下一页</div>
+</if>
 </body>
 <script type="text/javascript">
     var $$ = {};
@@ -147,6 +149,9 @@
                     el.className="list-con";
                     el.innerHTML=html;
                     document.querySelector('#liebiao').appendChild(el);
+                }
+                if( i<10 ){
+                    document.querySelector('.next-page').remove();
                 }
             }else{
                 document.querySelector('.next-page').remove();
