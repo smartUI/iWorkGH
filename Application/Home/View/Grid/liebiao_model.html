@@ -132,8 +132,8 @@
             data = JSON.parse(data);
             if( data ){
                 page++;
-                var html = '';
                 for(var i=0;i<data.length;i++){
+                    var html = '';
                     html = html +
                         '<div class="list" data-href="' + data[i].url +'">\
                             <div class="liebiao-con liebiao-odd">\
@@ -143,11 +143,11 @@
                                 '</div>\
                             </div>\
                         </div>';
+                    var el = document.createElement('div');
+                    el.className="list-con";
+                    el.innerHTML=html;
+                    document.querySelector('#liebiao').appendChild(el);
                 }
-                var el = document.createElement('div');
-                el.className="list-con";
-                el.innerHTML=html;
-                document.querySelector('#liebiao').appendChild(el);
             }else{
                 document.querySelector('.next-page').remove();
             }
