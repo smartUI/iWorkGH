@@ -1,12 +1,12 @@
 <style>
     .news-id{width: 70px;}
     .news-sta{width: 60px;}
-    .news-add, .news-pub{width: 90px;}
+    .news-add, .news-pub{max-width: 90px;}
     .news-control, .news-auth{width: 100px;}
     .table{clear: both;}
     .kol{cursor: pointer; margin-left: 3px;}
     #view-body img{max-width: 100%;}
-    .text-muted{word-break: break-all;}
+    .text-muted{word-break: break-all;width: 30%;}
     .news-title{width: 100px;}
     .show_pages .btn{margin-right: 5px;}
 </style>
@@ -24,6 +24,8 @@
         <th class="text-left news-id">ID</th>
         <th class="text-left news-title">头图图片</th>
         <th class="text-left text-muted">头图标题</th>
+        <th class="text-left text-muted">头图链接</th>
+        <th class="text-left news-pub"></th>
         <th class="text-left news-control">操作</th>
     </tr>
     </thead>
@@ -36,7 +38,9 @@
                     <img width="80" height="80" src="{:U('/Uploads')}/{$banner.icon}">
                 </a>
             </td>
+            <td class="text-left text-muted">{$banner.title}</td>
             <td class="text-left text-muted">{$banner.url}</td>
+            <th></th>
             <td class="text-left">
                 <div class="btn-group" role="group">
                     <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
@@ -62,6 +66,7 @@
             <th class="text-left news-id">ID</th>
             <th class="text-left news-title">宫格图片</th>
             <th class="text-left text-muted">宫格链接</th>
+            <th class="text-left text-muted"></th>
             <th class="text-left news-pub"></th>
             <th class="text-left news-control">操作</th>
         </if>
@@ -69,6 +74,7 @@
             <th class="text-left news-id">ID</th>
             <th class="text-left news-title">信息图片</th>
             <th class="text-left text-muted">信息标题</th>
+            <th class="text-left text-muted">信息链接</th>
             <th class="text-left news-pub">发布时间</th>
             <th class="text-left news-control">操作</th>
         </if>
@@ -85,10 +91,15 @@
             </td>
             <td class="text-left text-muted">
                 <a href="{$v.url}" target="_blank">
-                    <if condition="$is_liebiao">{$v.title}</if>
-                    <if condition="$is_gongge">{$v.url}</if>
+                    {$v.title}
                 </a>
             </td>
+            <td class="text-left text-muted">
+                <a href="{$v.url}" target="_blank">
+                    {$v.url}
+                </a>
+            </td>
+
             <td class="text-left news-pub">
                 {$v.publish_time}
             </td>

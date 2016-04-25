@@ -10,7 +10,7 @@ body {
     color: #222;
     font-size: 13px;
     position: relative;
-    background: #e7e8eb;
+    background: #e7e8eb;overflow-x: hidden;
 }
 a{cursor: pointer;}
 /**
