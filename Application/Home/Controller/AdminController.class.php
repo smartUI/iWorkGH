@@ -5,8 +5,12 @@ use Think\Controller;
 
 class AdminController extends CommonController {
 
+    private $model;
 	public function __construct() {
 		parent::__construct();
+        if( !session('nickname') ){
+            $this->redirect('/Home/Index/login');
+        }
 	}
 
 	//修改管理员信息

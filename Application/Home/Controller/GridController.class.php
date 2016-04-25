@@ -26,7 +26,7 @@ class GridController extends Controller {
         $this->assign('menu',$m['menu']);
         $this->assign('slider',$m['slider']);
 
-        if(!session('nickname')){
+        if( ACTION_NAME != 'getPageList' && !session('nickname') ){
             $this->redirect('/Home/Index/login');
         }
 

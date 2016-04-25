@@ -7,6 +7,9 @@ class PagesController extends CommonController {
 
 	public function __construct() {
 		parent::__construct();
+        if( !session('nickname') ){
+            $this->redirect('/Home/Index/login');
+        }
 	}
 
 	//显示管理员列表
