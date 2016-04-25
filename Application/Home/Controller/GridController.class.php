@@ -97,6 +97,7 @@ class GridController extends Controller {
             'page_id' => I('post.page_id','','htmlspecialchars'),
             'icon' => I('post.icon','','htmlspecialchars'),
             'url' => I('post.url','','htmlspecialchars'),
+            'title' => I('post.title','','htmlspecialchars'),
             'rank' => I('post.rank',1,'int'),
             'status' => I('post.status',1,'int'),
             'is_banner' => I('post.is_banner',0,'int'),

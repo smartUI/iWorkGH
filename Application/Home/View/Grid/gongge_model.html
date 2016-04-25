@@ -27,9 +27,15 @@
 <div class="wrapper">
     <if condition="$banner neq '' ">
         <div class="list-head">
-            <img src="{:U('/Uploads')}/{$banner.icon}">
             <if condition="$banner['url'] neq '' ">
-                <div class="list-head-title">{$banner.url}</div>
+                <a href="{$banner.url}" target="_blank">
+            </if>
+                <img src="{:U('/Uploads')}/{$banner.icon}">
+                <if condition="$banner['title'] neq '' ">
+                    <div class="list-head-title">{$banner.title}</div>
+                </if>
+            <if condition="$banner['url'] neq '' ">
+                </a>
             </if>
         </div>
     </if>

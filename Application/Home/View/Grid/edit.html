@@ -6,10 +6,7 @@
 </h4>
 <form class="form-horizontal col-sm-7" onsubmit="return checkUrl()" action="{:U('Home/Grid/subEdit')}?id={$grid.id}&pageModel={$pageModel}" method="post" enctype="multipart/form-data">
     <div class="form-group">
-        <label for="icon" class="col-sm-2 control-label">
-            <if condition="$is_gongge">宫格图片</if>
-            <if condition="$is_liebiao">信息流图</if>
-        </label>
+        <label for="icon" class="col-sm-2 control-label">图片</label>
         <div class="col-sm-5">
             <div id="preview">
                 <if condition="($grid['icon'] neq '')">
@@ -25,19 +22,19 @@
     </div>
 
     <div class="form-group">
-        <label for="url" class="col-sm-2 control-label">类型设置</label>
+        <label for="url" class="col-sm-2 control-label">类型</label>
 
         <div class="col-sm-6">
 
             <label class="radio" for="radios-grid">
-                <input type="radio" name="is_banner" label-text="<if condition="$is_gongge">宫格链接</if><if condition="$is_liebiao">信息链接</if>" id="radios-grid" value="0" <if condition="$grid['is_banner']=='0' || null==$grid['is_banner']">checked</if>>
+                <input type="radio" name="is_banner" id="radios-grid" value="0" <if condition="$grid['is_banner']=='0' || null==$grid['is_banner']">checked</if>>
                 设置为<span style="color:#d14432">
                 <if condition="$is_gongge">宫格</if>
                 <if condition="$is_liebiao">信息流</if>
             </span>
             </label>
             <label class="radio" for="radios-banner">
-                <input type="radio" name="is_banner" id="radios-banner" label-text="头图标题" value="1" <if condition="$grid['is_banner']=='1'">checked</if>>
+                <input type="radio" name="is_banner" id="radios-banner" value="1" <if condition="$grid['is_banner']=='1'">checked</if>>
                 设置为<span style="color:#0000cc">头图</span>
             </label>
         </div>
@@ -52,44 +49,49 @@
     <!--</div>-->
 
     <if condition="$is_liebiao">
-        <script type="text/html" id="title_input_tpl">
-            <div class="form-group" id="title_input">
-                <label for="title" class="col-sm-2 control-label">信息标题</label>
-                <div class="col-sm-6">
-                    <input name="title" type="text" class="form-control" id="title" required="true" value="{$grid.title}">
-                </div>
+        <div class="form-group" id="title_input">
+            <label for="title" class="col-sm-2 control-label">标题</label>
+            <div class="col-sm-6">
+                <input name="title" type="text" class="form-control" id="title" value="{$grid.title}">
             </div>
-
+        </div>
+        <script type="text/html" id="title_input_tpl">
             <div class="form-group" id="time_input_box">
-                <label for="title" class="col-sm-2 control-label" for="time_input">发布时间</label>
+                <label for="title" class="col-sm-2 control-label" for="time_input">时间</label>
                 <div class="col-sm-6">
                     <input type="text" value="{$grid.publish_time}" name="publish_time" id="time_input" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:00'})" class="form-control js-datepicker readonly Wdate" required="true" readonly="true" style="height:auto">
                 </div>
             </div>
         </script>
         <div class="liebiao-box">
-            <div class="form-group" id="title_input">
-                <label for="title" class="col-sm-2 control-label">信息标题</label>
-                <div class="col-sm-6">
-                    <input name="title" type="text" class="form-control" id="title" required="true" value="{$grid.title}">
-                </div>
-            </div>
-
             <div class="form-group" id="time_input_box">
-                <label for="title" class="col-sm-2 control-label" for="time_input">发布时间</label>
+                <label for="title" class="col-sm-2 control-label" for="time_input">时间</label>
                 <div class="col-sm-6">
                     <input type="text" value="{$grid.publish_time}" name="publish_time" id="time_input" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:00'})" class="form-control js-datepicker readonly Wdate" required="true" readonly="true" style="height:auto">
+                </div>
+            </div>
+        </div>
+    <else/>
+        <script type="text/html" id="banner-title-tpl">
+            <div class="form-group">
+                <label for="banner_title" class="col-sm-2 control-label">标题</label>
+                <div class="col-sm-6">
+                    <input name="title" type="text" class="form-control" id="banner_title" value="{$grid.title}">
+                </div>
+            </div>
+        </script>
+        <div id="banner-title-box" style="display:none">
+            <div class="form-group">
+                <label for="banner_title" class="col-sm-2 control-label">标题</label>
+                <div class="col-sm-6">
+                    <input name="title" type="text" class="form-control" id="banner_title" value="{$grid.title}">
                 </div>
             </div>
         </div>
     </if>
 
     <div class="form-group">
-        <label for="url" class="col-sm-2 control-label" id="lab-text">
-            <if condition="$is_gongge">宫格链接</if>
-            <if condition="$is_liebiao">信息链接</if>
-        </label>
-
+        <label for="url" class="col-sm-2 control-label" id="lab-text">链接</label>
         <div class="col-sm-10">
             <if condition="null !== $grid['page_id'] && $grid['page_id'] !=''">
                 <input name="page_id" type="hidden" class="form-control" id="page_id" required="true" value="{$grid.page_id}">
@@ -124,11 +126,7 @@
 </form>
 
 <script type="text/javascript">
-    var isCheck=true;
     function checkUrl(){
-        if( !isCheck ){
-            return true;
-        }
         var url = $('#url').val();
         url = $.trim(url);
         if( url==='' || /https?:\/\/([\w-]+\.)+[\w-]+(\/[\w\-\.\?\\%\\&\\=]*)?/.test(url) ){
@@ -141,17 +139,15 @@
 
     $('#radios-grid').change(function(e){
         if($(this).is(':checked')){
-            $('#lab-text').html( $(this).attr('label-text') );
             $('.liebiao-box').show().html( $('#title_input_tpl').html() );
-            isCheck=true;
+            $('#banner-title-box').hide().html('');
         }
     })
 
     $('#radios-banner').change(function(e){
         if($(this).is(':checked')){
-            $('#lab-text').html( $(this).attr('label-text') );
             $('.liebiao-box').hide().html('');
-            isCheck=false;
+            $('#banner-title-box').show().html( $('#banner-title-tpl').html() );
         }
     });
 </script>
@@ -161,6 +157,11 @@
         $('#radios-banner').click();
     </script>
 <elseif condition="$grid['is_banner']=='0'" />
+    <script>
+        $('#radios-banner').click();
+        $('#radios-grid').click();
+    </script>
+<else/>
     <script>
         $('#radios-banner').click();
         $('#radios-grid').click();

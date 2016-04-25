@@ -10,14 +10,12 @@
     .news-title{width: 100px;}
     .show_pages .btn{margin-right: 5px;}
 </style>
-
 <link rel="stylesheet" href="__PUBLIC__/css/jquery.autocomplete.css" >
-
 <div class="row-fluid">
     <h4 style="display:inline;margin-right:20px;">{$pageModelInfo.title} - {$pageModelInfo.type}</h4>
     <strong class="glyphicon glyphicon-wrench" style="line-height: 34px;display: inline-block;height: 34px;font-weight:bolder;">操作：</strong><a href="{:U('Home/Grid/edit')}?pageModel={$pageModel}" class="btn btn-primary">添加（{$pageModelInfo.type}／头图）</a>
-</div><p></p>
-
+</div>
+<p></p>
 <table class="table table-hover" border="0" style="border:1px solid #dddddd">
     <thead>
     <tr>
@@ -39,8 +37,8 @@
                 </a>
             </td>
             <td class="text-left text-muted">{$banner.title}</td>
-            <td class="text-left text-muted">{$banner.url}</td>
-            <th></th>
+            <td class="text-left text-muted"><a href="{$banner.url}" target="_blank">{$banner.url}</a></td>
+            <td class="text-left news-pub"></td>
             <td class="text-left">
                 <div class="btn-group" role="group">
                     <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
@@ -65,8 +63,8 @@
         <if condition="$is_gongge">
             <th class="text-left news-id">ID</th>
             <th class="text-left news-title">宫格图片</th>
-            <th class="text-left text-muted">宫格链接</th>
             <th class="text-left text-muted"></th>
+            <th class="text-left text-muted">宫格链接</th>
             <th class="text-left news-pub"></th>
             <th class="text-left news-control">操作</th>
         </if>
@@ -120,29 +118,4 @@
     </tbody>
 </table>
 <div>{$page_show}</div>
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="view-title">Modal title</h4>
-            </div>
-            <div class="modal-body" id="view-body">
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <!--<button type="button" class="btn btn-primary">Save changes</button>-->
-            </div>
-        </div>
-    </div>
-</div>
-<!--<a href="/Home/News/newsContent/id/{$v.id}">{$v.title}</a>-->
-<!--<a target="_blank" href="/Html/{$v.add_time|substr=0,4}/{$v.add_time|substr=5,2}/{$v.id}.html">{$v.title}</a>-->
-<!--<a href="/Home/News/newsDel/id/{$v['id']}" onclick="return confirm('确定删除吗?')">删除</a>&nbsp;-->
-{$page}
-
 <script src="__PUBLIC__/js/jquery.autocomplete.min.js"></script>
-<script>
-
-</script>
