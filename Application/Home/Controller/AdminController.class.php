@@ -19,6 +19,7 @@ class AdminController extends CommonController {
 		//执行修改操作
 		if (IS_POST) {
 			$post_data = $_POST;
+            $post_data['nickname'] = trim($post_data['nickname']);
 			$pwd = $post_data['password'];
 			$pwd2 = $post_data['password2'];
 			$admin_id = I('get.id', 0, 'int');
@@ -28,10 +29,8 @@ class AdminController extends CommonController {
                 die;
             }
 			//密码判断
-			if ($pwd == '') {
-				unset($post_data['password']);
+			if ($pwd != '') {
 				unset($post_data['password2']);
-			} else {
 				$post_data['password'] = md5($pwd);
 			}
 
