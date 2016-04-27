@@ -9,10 +9,10 @@ return array(
     /* 数据库设置 */
     'DB_TYPE'               =>  'mysql',     // 数据库类型
     //'DB_HOST'               =>  '127.0.0.1', // 服务器地址
-    'DB_HOST'               =>  '192.168.20.14', // 服务器地址
+    'DB_HOST'               =>  'localhost', // 服务器地址
     'DB_NAME'               =>  'test',          // 数据库名
     'DB_USER'               =>  'root',      // 用户名
-    'DB_PWD'                =>  '.rk',          // 密码
+    'DB_PWD'                =>  '',          // 密码
     'DB_PORT'               =>  '3306',        // 端口
     'DB_PREFIX'             =>  'z_',    // 数据库表前
     'DB_CHARSET' => 'utf8mb4',
@@ -71,7 +71,7 @@ return array(
             'type' => '宫格',
             'pre_page_model' => 'gongge'
         ),'list' => array(
-            'title' => '企业研告',
+            'title' => '券商研告',
             'type' => '信息流展示',
             'pre_page_model' => 'liebiao'
         )
